@@ -1,0 +1,190 @@
+---
+import "../styles/About.css";
+import "../styles/Home.css";
+
+const {
+  about,
+  heroBackground,
+  statisticIcons,
+  valueIcons,
+  platformIcons,
+  facilityImages,
+  cta,
+} = Astro.props;
+
+const acf = about.acf;
+
+function splitEyebrow(title = "") {
+  const [firstWord, ...remainingWords] = title.split(" ");
+
+  return {
+    firstWord,
+    remainingWords: remainingWords.join(" "),
+  };
+}
+
+const whoWeAreEyebrow = splitEyebrow(acf.who_we_are_small_title);
+const valuesEyebrow = splitEyebrow(acf.our_values_small_title);
+const platformEyebrow = splitEyebrow(acf.platform_small_title);
+const facilitiesEyebrow = splitEyebrow(acf.facilities_small_title);
+
+const statistics = [1, 2, 3, 4].map((number, index) => ({
+  icon: statisticIcons[index],
+  title: acf[`card_${number}`]?.[`statistic_${number}_title`],
+  description: acf[`card_${number}`]?.[`statistic_${number}_description`],
+}));
+
+const values = [1, 2, 3, 4, 5].map((number, index) => ({
+  icon: valueIcons[index],
+  title: acf[`value_cards_${number}`]?.[`value_${number}_title`],
+  description: acf[`value_cards_${number}`]?.[`value_${number}_description`],
+}));
+
+const platforms = [1, 2, 3, 4].map((number, index) => ({
+  icon: platformIcons[index],
+  title: acf[`platform_cards_${number}`]?.[`platform_${number}_title`],
+  description: acf[`platform_cards_${number}`]?.[`platform_${number}_description`],
+}));
+
+const facilities = [1, 2, 3, 4].map((number, index) => ({
+  image: facilityImages[index],
+  title: acf[`facility_images_${number}`]?.[`facility_${number}_title`],
+}));
+---
+
+<section class="about-hero" style={`background-image: url('${heroBackground}')`}>
+  <div class="container about-hero__content">
+    <p class="about-hero__eyebrow">{acf.hero_small_title}</p>
+    <h1>{acf.hero_main_title}</h1>
+    <div class="about-hero__line"></div>
+    <p class="about-hero__description">{acf.hero_description}</p>
+  </div>
+</section>
+
+<section class="about-section about-who">
+  <div class="container">
+    <div class="about-who__panel">
+      <div class="about-who__intro">
+        <p class="section-eyebrow">
+          <span class="section-eyebrow__primary">{whoWeAreEyebrow.firstWord}</span>
+          {" "}{whoWeAreEyebrow.remainingWords}
+        </p>
+        <h2>{acf.who_we_are_main_title}</h2>
+        <p class="about-who__description">{acf.who_we_are_description}</p>
+
+        {acf.who_we_are_button_text && (
+          <a class="about-button" href="/services">
+            {acf.who_we_are_button_text}
+          </a>
+        )}
+      </div>
+
+      <div class="about-statistics">
+        {statistics.map((card) => (
+          <article class="about-statistic">
+            {card.icon && <img src={card.icon} alt="" />}
+            <div>
+              <h3>{card.title}</h3>
+              <p>{card.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-section about-values">
+  <div class="container">
+    <header class="about-section__header">
+      <p class="section-eyebrow">
+        <span class="section-eyebrow__primary">{valuesEyebrow.firstWord}</span>
+        {" "}{valuesEyebrow.remainingWords}
+      </p>
+      <h2>{acf.our_values_main_title}</h2>
+    </header>
+
+    <div class="about-values__grid">
+      {values.map((value) => (
+        <article class="about-value">
+          {value.icon && <img src={value.icon} alt="" />}
+          <h3>{value.title}</h3>
+          <p>{value.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="about-section about-platform">
+  <div class="container">
+    <div class="about-platform__panel">
+      <header class="about-section__header">
+        <p class="section-eyebrow">
+          <span class="section-eyebrow__primary">{platformEyebrow.firstWord}</span>
+          {" "}{platformEyebrow.remainingWords}
+        </p>
+        <h2>{acf.platform_main_title}</h2>
+      </header>
+
+      <div class="about-platform__grid">
+        {platforms.map((platform) => (
+          <article class="about-platform-card">
+            {platform.icon && <img src={platform.icon} alt="" />}
+            <div class="about-platform-card__content">
+              <h3>{platform.title}</h3>
+              <p>{platform.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="about-section about-facilities">
+  <div class="container">
+    <header class="about-section__header">
+      <p class="section-eyebrow">
+        <span class="section-eyebrow__primary">{facilitiesEyebrow.firstWord}</span>
+        {" "}{facilitiesEyebrow.remainingWords}
+      </p>
+      <h2>{acf.facilities_main_title}</h2>
+    </header>
+
+    <div class="about-facilities__grid">
+      {facilities.map((facility) => (
+        <article class="about-facility">
+          {facility.image && (
+            <img src={facility.image} alt={facility.title || ""} loading="lazy" />
+          )}
+          <h3>{facility.title}</h3>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="container">
+    <div
+      class="cta-wrapper"
+      style={`background-image: url('${cta.background}')`}
+    >
+      <div class="cta-content">
+        <p class="cta-eyebrow">{cta.descriptionTitle}</p>
+        <h2 class="cta-title">{cta.title}</h2>
+        <p class="cta-description">{cta.description}</p>
+      </div>
+
+      <div class="cta-buttons">
+        <a href="/contact#inquiry" class="btn-outline">
+          {cta.primaryButton.cta_primary_text}
+        </a>
+        <a href="/contact#demo" class="btn-outline">
+          {cta.secondaryButton.cta_secondary_text}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

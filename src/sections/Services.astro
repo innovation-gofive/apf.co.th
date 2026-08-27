@@ -1,0 +1,104 @@
+---
+import "../styles/Services.css";
+import "../styles/Home.css";
+
+const {
+  services, heroBackground, heroIcons, serviceImages,
+  serviceFeatureIcons, capabilityIcons, cta,
+} = Astro.props;
+const acf = services.acf;
+const serviceKeys = [
+  "service_b2b",
+  "service_b2c",
+  "service_warehouse_management",
+  "service_transportation",
+];
+
+function splitEyebrow(title = "") {
+  const [firstWord, ...remainingWords] = title.split(" ");
+  return { firstWord, remainingWords: remainingWords.join(" ") };
+}
+
+const servicesEyebrow = splitEyebrow(acf.our_services_small_title);
+const capabilitiesEyebrow = splitEyebrow(acf.capabilities_small_title);
+const heroFeatures = [1, 2, 3, 4].map((number, index) => ({
+  icon: heroIcons[index],
+  title: acf[`services_hero_feature_${number}`]?.title,
+  description: acf[`services_hero_feature_${number}`]?.description,
+}));
+const serviceItems = serviceKeys.map((key, index) => ({
+  id: key.replace("service_", ""),
+  title: acf[key]?.title,
+  description: acf[key]?.description,
+  image: serviceImages[index],
+  features: [1, 2, 3, 4, 5]
+    .map((number, featureIndex) => ({
+      icon: serviceFeatureIcons[index * 5 + featureIndex],
+      text: acf[key]?.[`feature_item_${number}`]?.text,
+    }))
+    .filter((feature) => feature.text),
+}));
+const capabilities = [1, 2, 3, 4, 5, 6].map((number, index) => ({
+  icon: capabilityIcons[index],
+  title: acf[`capability_${number}`]?.title,
+  description: acf[`capability_${number}`]?.description,
+}));
+---
+
+<section class="services-hero" style={`background-image: url('${heroBackground}')`}>
+  <div class="container services-hero__content">
+    <h1>{acf.services_hero_main_title}<span>{acf.services_hero_highlight_text}</span></h1>
+    <p class="services-hero__description">{acf.services_hero_description}</p>
+    <div class="services-hero__features">
+      {heroFeatures.map((feature) => (
+        <article class="services-hero__feature">
+          {feature.icon && <img src={feature.icon} alt="" />}
+          <div><strong>{feature.title}</strong><span>{feature.description}</span></div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="services-section services-list">
+  <div class="container">
+    <header class="services-heading">
+      <p class="services-eyebrow"><span>{servicesEyebrow.firstWord}</span> {servicesEyebrow.remainingWords}</p>
+      <h2>{acf.our_services_main_title}</h2>
+      <p>{acf.our_services_description}</p>
+    </header>
+    <div class="services-list__items">
+      {serviceItems.map((service) => (
+        <article class="service-detail" id={service.id}>
+          <div class="service-detail__copy">
+            <h3>{service.title}</h3><p>{service.description}</p>
+            <ul>{service.features.map((feature) => (<li>{feature.icon && <img src={feature.icon} alt="" />}{feature.text}</li>))}</ul>
+          </div>
+          {service.image && <img class="service-detail__image" src={service.image} alt={service.title || ""} loading="lazy" />}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="services-section capabilities">
+  <div class="container"><div class="capabilities__panel">
+    <header class="services-heading services-heading--center">
+      <p class="services-eyebrow"><span>{capabilitiesEyebrow.firstWord}</span> {capabilitiesEyebrow.remainingWords}</p>
+      <h2>{acf.capabilities_main_title}</h2>
+    </header>
+    <div class="capabilities__grid">
+      {capabilities.map((capability) => (
+        <article class="capability">
+          {capability.icon && <img src={capability.icon} alt="" />}
+          <h3>{capability.title}</h3><p>{capability.description}</p>
+        </article>
+      ))}
+    </div>
+  </div></div>
+</section>
+
+<section class="cta-banner"><div class="container"><div class="cta-wrapper" style={`background-image: url('${cta.background}')`}>
+  <div class="cta-content"><p class="cta-eyebrow">{cta.descriptionTitle}</p><h2 class="cta-title">{cta.title}</h2><p class="cta-description">{cta.description}</p></div>
+  <div class="cta-buttons"><a href="/contact#inquiry">{cta.primaryButton.cta_primary_text}</a><a href="/contact#demo">{cta.secondaryButton.cta_secondary_text}</a></div>
+</div></div></section>

@@ -1,0 +1,20 @@
+---
+const { features = [], image, lineBreakBefore = {} } = Astro.props;
+const splitAtRequestedWord = (text: string = "", index: number) => {
+  const word = lineBreakBefore[index];
+  const breakIndex = word ? text.indexOf(word) : -1;
+  return breakIndex >= 0
+    ? [text.slice(0, breakIndex).trimEnd(), text.slice(breakIndex).trimStart()]
+    : [text, ""];
+};
+---
+
+<ul class="feature-list">
+  {features.map((feature: any, index: number) => {
+    const [textBeforeBreak, textAfterBreak] = splitAtRequestedWord(feature.text, index);
+    return <li>
+      {image(feature.icon) && <img src={image(feature.icon)} alt="" />}
+      <div class="feature-list__content"><span class="feature-list__title">{textBeforeBreak}{textAfterBreak && <><br />{textAfterBreak}</>}</span>{feature.title && <span class="feature-list__description">{feature.title}</span>}</div>
+    </li>;
+  })}
+</ul>

@@ -1,0 +1,98 @@
+---
+import "../styles/ServiceDetail.css";
+import "../styles/ServiceDetailOverrides.css";
+import FeatureList from "../components/ServiceFeatureList.astro";
+import Intro from "../components/ServiceIntro.astro";
+import FeatureBlock from "../components/ServiceFeatureBlock.astro";
+import ProcessBlock from "../components/ServiceProcessBlock.astro";
+
+const { acf, media } = Astro.props;
+const image = (id: number | undefined) => id ? media[id] : undefined;
+const items = (group: any, count = 4) => Array.from({ length: count }, (_, index) => group?.[`feature_${index + 1}`]).filter(Boolean);
+const steps = (prefix: string, count = 4) => Array.from({ length: count }, (_, index) => acf[`${prefix}_${index + 1}`]).filter(Boolean);
+
+const b2bServices = [1, 2, 3].map((number) => acf[`service_detail_b2b_service_${number}`]).filter(Boolean);
+const b2bBenefits = [1, 2, 3, 4].map((number) => acf[`service_detail_b2b_benefit_${number}`]).filter(Boolean);
+const warehousePacking = steps("service_detail_warehouse_packing_step");
+const b2cPickPack = steps("service_detail_b2c_pick_pack_step");
+const transportationProcess = steps("service_detail_transportation_process_step");
+
+const tabs = [
+  { id: "b2b", label: "B2B Fulfillment" },
+  { id: "warehouse", label: "Warehouse Management" },
+  { id: "b2c", label: "B2C Fulfillment" },
+  { id: "transportation", label: "Transportation Services" },
+];
+---
+
+<section class="service-detail-hero" style={`background-image:url('${image(acf.service_detail_hero_background_image)}')`}>
+  <div class="container service-detail-hero__content">
+    <p>{acf.service_detail_hero_english_title}</p>
+    <h1>{acf.service_detail_hero_main_title}</h1>
+    <span></span>
+    <div>{acf.service_detail_hero_description}</div>
+  </div>
+</section>
+
+<section class="service-detail-page">
+  <div class="container">
+    <div class="service-tabs" role="tablist" aria-label="บริการของเรา">
+      {tabs.map((tab, index) => <button type="button" class:list={["service-tabs__button", { "is-active": index === 0 }]} role="tab" aria-selected={index === 0 ? "true" : "false"} aria-controls={`panel-${tab.id}`} data-tab={tab.id}>{tab.label}</button>)}
+    </div>
+
+    <section class="service-panel is-active" id="panel-b2b" role="tabpanel" data-panel="b2b">
+      <header class="service-intro"><h2>{acf.service_detail_b2b_intro_main_title}</h2><p>{acf.service_detail_b2b_intro_description}</p></header>
+      <h3 class="section-divider"><span>{acf.service_detail_b2b_services_title}</span></h3>
+      <div class="b2b-services">
+        {b2bServices.map((service: any) => <article class="service-card-detail">
+          {image(service.icon) && <div class="service-card-detail__icon"><img src={image(service.icon)} alt="" /></div>}
+          <h3>{service.title}</h3><p>{service.description}</p>
+          <FeatureList features={items(service)} {image} />
+        </article>)}
+      </div>
+      <section class="benefits-panel"><h3>{acf.service_detail_b2b_benefits_title}</h3><div>{b2bBenefits.map((benefit: any) => <article>{image(benefit.icon) && <div class="benefit-icon"><img src={image(benefit.icon)} alt="" /></div>}<p>{benefit.title}</p></article>)}</div></section>
+    </section>
+
+    <section class="service-panel" id="panel-warehouse" role="tabpanel" data-panel="warehouse" hidden>
+      <Intro title={acf.service_detail_warehouse_intro_main_title} description={acf.service_detail_warehouse_intro_description} />
+      <FeatureBlock group={acf.service_detail_warehouse_receiving} {image} />
+      <div class="feature-block-grid"><FeatureBlock group={acf.service_detail_warehouse_picking} {image} compact descriptionBreakAfter="คลัง" /><FeatureBlock group={acf.service_detail_warehouse_product_location} {image} compact /></div>
+      <ProcessBlock eyebrow={acf.service_detail_warehouse_packing_small_title} title={acf.service_detail_warehouse_packing_main_title} description={acf.service_detail_warehouse_packing_description} steps={warehousePacking} {image} />
+    </section>
+
+    <section class="service-panel" id="panel-b2c" role="tabpanel" data-panel="b2c" hidden>
+      <Intro title={acf.service_detail_b2c_intro_main_title} description={acf.service_detail_b2c_intro_description} />
+      <FeatureBlock group={acf.service_detail_b2c_order_integration} {image} secondaryImage />
+      <div class="feature-block-grid b2c-grid"><FeatureBlock group={acf.service_detail_b2c_order_processing} {image} compact /><ProcessBlock eyebrow={acf.service_detail_b2c_pick_pack_small_title} title={acf.service_detail_b2c_pick_pack_main_title} steps={b2cPickPack} {image} compact /></div>
+      <div class="feature-block-grid"><FeatureBlock group={acf.service_detail_b2c_tracking} {image} compact secondaryImage /><FeatureBlock group={acf.service_detail_b2c_return_management} {image} compact featureLineBreakBefore={{ 1: "ของสินค้าคืน" }} /></div>
+    </section>
+
+    <section class="service-panel" id="panel-transportation" role="tabpanel" data-panel="transportation" hidden>
+      <Intro title={acf.service_detail_transportation_intro_main_title} description={acf.service_detail_transportation_intro_description} />
+      <FeatureBlock group={acf.transportation_management} {image} />
+      <ProcessBlock eyebrow={acf.service_detail_transportation_process_small_title} title={acf.service_detail_transportation_process_main_title} steps={transportationProcess} {image} />
+      <div class="feature-block-grid transportation-grid"><FeatureBlock group={acf.service_detail_transportation_tracking} {image} compact secondaryImage /><FeatureBlock group={acf.service_detail_transportation_cod_pod} {image} compact /></div>
+    </section>
+  </div>
+</section>
+
+<script>
+  const activate = (id: string) => {
+    document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((button) => {
+      const active = button.dataset.tab === id;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-selected", String(active));
+    });
+    document.querySelectorAll<HTMLElement>("[data-panel]").forEach((panel) => {
+      const active = panel.dataset.panel === id;
+      panel.hidden = !active;
+      panel.classList.toggle("is-active", active);
+    });
+  };
+  document.querySelectorAll<HTMLButtonElement>("[data-tab]").forEach((button) => button.addEventListener("click", () => {
+    const id = button.dataset.tab;
+    if (id) { activate(id); history.replaceState(null, "", `#${id}`); }
+  }));
+  const initial = location.hash.slice(1);
+  if (["b2b", "warehouse", "b2c", "transportation"].includes(initial)) activate(initial);
+</script>

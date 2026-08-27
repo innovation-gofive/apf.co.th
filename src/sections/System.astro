@@ -1,0 +1,169 @@
+---
+import "../styles/System.css";
+import "../styles/Home.css";
+
+const {
+  system,
+  heroBackground,
+  platformIcons,
+  platformImages,
+  useCaseImages,
+  useCasePartnerLogos,
+  useCaseFeatureIcons,
+  integrationLogos,
+  cta,
+} = Astro.props;
+
+const acf = system.acf;
+
+function splitEyebrow(title = "") {
+  const [firstWord, ...remainingWords] = title.split(" ");
+  return { firstWord, remainingWords: remainingWords.join(" ") };
+}
+
+const heroEyebrow = splitEyebrow(acf.system_hero_small_title);
+const platformEyebrow = splitEyebrow(acf.system_platform_small_title);
+const useCasesEyebrow = splitEyebrow(acf.system_use_cases_small_title);
+const integrationEyebrow = splitEyebrow(acf.system_integration_small_title);
+
+const platforms = [1, 2, 3, 4].map((number, index) => {
+  const card = acf[`system_platform_card_${number}`];
+  return {
+    icon: platformIcons[index],
+    image: platformImages[index],
+    title: card?.title,
+    smallTitle: card?.small_title,
+    description: card?.description,
+  };
+});
+
+const useCases = [1, 2, 3, 4].map((number, index) => {
+  const card = acf[`system_use_case_${number}`];
+  const images = useCaseImages.slice(index * 4, index * 4 + 4).filter(Boolean);
+  const featureStart = number === 2 ? 0 : number === 4 ? 3 : -1;
+
+  return {
+    number: card?.number,
+    title: card?.title,
+    description: card?.description,
+    images,
+    features:
+      featureStart < 0
+        ? []
+        : [1, 2, 3]
+            .map((featureNumber, featureIndex) => ({
+              icon: useCaseFeatureIcons[featureStart + featureIndex],
+              text: card?.[`feature_item_${featureNumber}`]?.text,
+            }))
+            .filter((feature) => feature.text),
+  };
+});
+---
+
+<section class="system-hero" style={`background-image: url('${heroBackground}')`}>
+  <div class="container system-hero__content">
+    <p class="system-hero__eyebrow">
+      <span>{heroEyebrow.firstWord}</span> {heroEyebrow.remainingWords}
+    </p>
+    <h1>{acf.system_hero_main_title}</h1>
+    <p class="system-hero__description">{acf.system_hero_description}</p>
+    <div class="system-hero__buttons">
+      <a class="system-button system-button--primary" href="/contact#demo">
+        {acf.system_hero_primary_button_text} 
+      </a>
+      <a class="system-button system-button--secondary" href="/contact#inquiry">
+        {acf.system_hero_secondary_button_text} 
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="system-section system-platform">
+  <div class="container">
+    <header class="system-section__heading">
+      <p class="system-eyebrow">
+        <span>{platformEyebrow.firstWord}</span>{" "}
+        <b>{platformEyebrow.remainingWords}</b>
+      </p>
+      <h2>{acf.system_platform_main_title}</h2>
+      <i></i>
+    </header>
+    <div class="platform-grid">
+      {platforms.map((platform) => (
+        <article class="platform-card">
+          <header>
+            {platform.icon && <img src={platform.icon} alt="" />}
+            <div><h3>{platform.title}</h3><p>{platform.smallTitle}</p></div>
+          </header>
+          {platform.image && <img class="platform-card__image" src={platform.image} alt={platform.title || ""} loading="lazy" />}
+          <p class="platform-card__description">{platform.description}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="system-section system-use-cases">
+  <div class="container">
+    <header class="system-section__heading">
+      <p class="system-eyebrow">{acf.system_use_cases_small_title}</p>
+      <h2>{acf.system_use_cases_main_title}</h2>
+      <p>{acf.system_use_cases_description}</p>
+    </header>
+    <div class="use-case-list">
+      {useCases.map((useCase, index) => (
+        <article class:list={["use-case", `use-case--${index + 1}`]}>
+          <div class="use-case__copy">
+            <span class="use-case__number">{useCase.number}</span>
+            <h3>{useCase.title}</h3>
+            <p>{useCase.description}</p>
+            {index === 0 && (
+              <div class="use-case__partners">
+                {useCasePartnerLogos.map((logo) => logo && <img src={logo} alt="Partner logo" loading="lazy" />)}
+              </div>
+            )}
+            {useCase.features.length > 0 && (
+              <div class="use-case__features">
+                {useCase.features.map((feature) => (
+                  <span>
+                    {feature.icon && <img src={feature.icon} alt="" />}
+                    <em>{feature.text}</em>
+                  </span>
+                ))}
+              </div>
+            )}
+            {index === 2 && useCase.images[0] && (
+              <div class="use-case__timeline">
+                <img src={useCase.images[0]} alt={useCase.title || ""} loading="lazy" />
+              </div>
+            )}
+          </div>
+          <div class:list={["use-case__visual", { "use-case__visual--gallery": (index === 2 ? useCase.images.slice(1) : useCase.images).length > 1 }]}>
+            {(index === 2 ? useCase.images.slice(1) : useCase.images).map((image) => (
+              <img src={image} alt={useCase.title || ""} loading="lazy" />
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<section class="system-section system-integration">
+  <div class="container">
+    <header class="system-section__heading">
+      <p class="system-eyebrow"><span>{integrationEyebrow.firstWord}</span> {integrationEyebrow.remainingWords}</p>
+      <h2>{acf.system_integration_main_title}</h2>
+    </header>
+    <div class="integration-logos">
+      {integrationLogos.map((logo) => logo && <img src={logo} alt="Integration partner" loading="lazy" />)}
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="container"><div class="cta-wrapper" style={`background-image: url('${cta.background}')`}>
+    <div class="cta-content"><p class="cta-eyebrow">{cta.descriptionTitle}</p><h2 class="cta-title">{cta.title}</h2><p class="cta-description">{cta.description}</p></div>
+    <div class="cta-buttons"><a href="/contact#inquiry">{cta.primaryButton.cta_primary_text}</a><a href="/contact#demo">{cta.secondaryButton.cta_secondary_text}</a></div>
+  </div></div>
+</section>

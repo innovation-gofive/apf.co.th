@@ -1,0 +1,65 @@
+---
+import Layout from "../layouts/Layout.astro";
+import System from "../sections/System.astro";
+import { getMedia, getMediaList, getPageBySlug } from "../services/wordpress";
+
+const system = await getPageBySlug("system");
+const acf = system.acf;
+
+const platformKeys = [1, 2, 3, 4].map((number) => `system_platform_card_${number}`);
+const useCaseKeys = [1, 2, 3, 4].map((number) => `system_use_case_${number}`);
+
+const [
+  heroBackground,
+  platformIcons,
+  platformImages,
+  useCaseImages,
+  useCasePartnerLogos,
+  useCaseFeatureIcons,
+  integrationLogos,
+  globalCTA,
+] = await Promise.all([
+  getMedia(acf.system_hero_background_image),
+  getMediaList(platformKeys.map((key) => acf[key]?.icon)),
+  getMediaList(platformKeys.map((key) => acf[key]?.image)),
+  getMediaList(
+    useCaseKeys.flatMap((key) =>
+      ["image", "image_1", "image_2", "image_3"].map((field) => acf[key]?.[field]),
+    ),
+  ),
+  getMediaList(
+    [1, 2, 3, 4].map((number) => acf.system_use_case_1?.[`partner_logo_${number}`]),
+  ),
+  getMediaList(
+    [2, 4].flatMap((caseNumber) =>
+      [1, 2, 3].map((number) => acf[`system_use_case_${caseNumber}`]?.[`feature_item_${number}`]?.icon),
+    ),
+  ),
+  getMediaList([1, 2, 3, 4].map((number) => acf[`system_integration_logo_${number}`])),
+  getPageBySlug("global-cta"),
+]);
+
+const ctaBackground = await getMedia(globalCTA.acf.cta_background_image);
+const cta = {
+  background: ctaBackground.source_url,
+  descriptionTitle: globalCTA.acf.cta_description_title,
+  title: globalCTA.acf.cta_title,
+  description: globalCTA.acf.cta_description,
+  primaryButton: globalCTA.acf.cta_primary_button,
+  secondaryButton: globalCTA.acf.cta_secondary_button,
+};
+---
+
+<Layout>
+  <System
+    system={system}
+    heroBackground={heroBackground.source_url}
+    platformIcons={platformIcons}
+    platformImages={platformImages}
+    useCaseImages={useCaseImages}
+    useCasePartnerLogos={useCasePartnerLogos}
+    useCaseFeatureIcons={useCaseFeatureIcons}
+    integrationLogos={integrationLogos}
+    cta={cta}
+  />
+</Layout>

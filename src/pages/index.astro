@@ -1,0 +1,132 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Home from "../sections/Home.astro";
+import {
+    fetchAPI,
+    getMedia,
+    getMediaList,
+    getPageBySlug
+} from "../services/wordpress";
+
+
+const home = await fetchAPI("/pages/9");
+const background = await getMedia(home.acf.background_image);
+const featureIcons = await getMediaList([
+    home.acf.features.feature_1.icon,
+    home.acf.features.feature_2.icon,
+    home.acf.features.feature_3.icon
+]);
+const serviceIcons = await getMediaList([
+    home.acf.service_cards.service_1.icon,
+    home.acf.service_cards.service_2.icon,
+    home.acf.service_cards.service_3.icon,
+    home.acf.service_cards.service_4.icon
+]);
+const operatingIcons = await getMediaList([
+    home.acf.step_1.icon,
+    home.acf.step_2.icon,
+    home.acf.step_3.icon,
+    home.acf.step_4.icon,
+    home.acf.step_5.icon,
+    home.acf.step_6.icon
+]);
+const whyChooseImage = await getMedia(
+    home.acf.why_choose_image
+);
+const whyChooseIcons = await getMediaList([
+    home.acf.why_choose_feature_1.icon,
+    home.acf.why_choose_feature_2.icon,
+    home.acf.why_choose_feature_3.icon,
+    home.acf.why_choose_feature_4.icon
+]);
+const technologyImages = await getMediaList([
+    home.acf.technology_card_1.image,
+    home.acf.technology_card_2.image,
+    home.acf.technology_card_3.image,
+    home.acf.technology_card_4.image,
+]);
+const platformIcons = await getMediaList([
+    home.acf.our_platform_1.icon,
+    home.acf.our_platform_2.icon,
+    home.acf.our_platform_3.icon,
+    home.acf.our_platform_4.icon,
+]);
+
+const smartPlatformBackground = await getMedia(
+    home.acf.smart_platform_background
+);
+
+const smartPlatformIcons = await getMediaList([
+    home.acf.feature_1.icon,
+    home.acf.feature_2.icon,
+    home.acf.feature_3.icon,
+    home.acf.feature_4.icon,
+]);
+
+const warehouseImage = await getMedia(
+    home.acf.warehouse_capacity.image_warehouse_capacity
+);
+
+const locationImage = await getMedia(
+    home.acf.our_location.image_our_location
+);
+
+const locationIcons = await getMediaList([
+    home.acf.our_location.feature_1.icon_our_location,
+    home.acf.our_location.feature_2.icon_our_location,
+    home.acf.our_location.feature_3.icon_our_location,
+]);
+
+const clientLogos = await getMediaList([
+    home.acf.client_1,
+    home.acf.client_2,
+    home.acf.client_3,
+    home.acf.client_4,
+    home.acf.client_5,
+    home.acf.client_6,
+    home.acf.client_8,
+]);
+
+const clients = {
+    title: home.acf.our_clients_title,
+    description: home.acf.our_clients_description,
+    logos: clientLogos,
+};
+
+const globalCTA = await getPageBySlug("global-cta");
+
+const ctaBackground = await getMedia(
+    globalCTA.acf.cta_background_image
+);
+
+const cta = {
+    background: ctaBackground.source_url,
+    descriptionTitle: globalCTA.acf.cta_description_title,
+    title: globalCTA.acf.cta_title,
+    description: globalCTA.acf.cta_description,
+    primaryButton: globalCTA.acf.cta_primary_button,
+    secondaryButton: globalCTA.acf.cta_secondary_button,
+};
+
+---
+
+<Layout>
+<Home
+    home={home}
+    background={background.source_url}
+    featureIcons={featureIcons}
+    serviceIcons={serviceIcons}
+    operatingIcons={operatingIcons}
+    whyChooseImage={whyChooseImage.source_url}
+    whyChooseIcons={whyChooseIcons}
+    technologyImages={technologyImages}
+    platformIcons={platformIcons}
+    smartPlatformBackground={smartPlatformBackground.source_url}
+    smartPlatformIcons={smartPlatformIcons}
+    warehouseImage={warehouseImage.source_url}
+    locationImage={locationImage.source_url}
+    locationIcons={locationIcons}
+    clients={clients}
+    cta={cta}
+/>
+</Layout>

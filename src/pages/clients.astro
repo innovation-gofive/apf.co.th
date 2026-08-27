@@ -1,0 +1,39 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Clients from "../sections/Clients.astro";
+import { getMedia, getMediaList, getPageBySlug } from "../services/wordpress";
+
+const clients = await getPageBySlug("customers");
+const acf = clients.acf;
+
+const [heroBackground, statisticIcons, brandLogos, industryIcons, trustIcons, globalCTA] = await Promise.all([
+  getMedia(acf.customers_hero_background_image),
+  getMediaList([1, 2, 3].map((number) => acf[`customers_hero_statistic_${number}`]?.icon)),
+  getMediaList([1, 2, 3, 4, 5, 6, 7, 8, 9].map((number) => acf[`customers_brand_logo_${number}`])),
+  getMediaList([1, 2, 3, 4].map((number) => acf[`customers_industry_${number}`]?.icon)),
+  getMediaList([1, 2, 3, 4].map((number) => acf[`customers_trust_item_${number}`]?.icon)),
+  getPageBySlug("global-cta"),
+]);
+
+const ctaBackground = await getMedia(globalCTA.acf.cta_background_image);
+const cta = {
+  background: ctaBackground.source_url,
+  descriptionTitle: globalCTA.acf.cta_description_title,
+  title: globalCTA.acf.cta_title,
+  description: globalCTA.acf.cta_description,
+  primaryButton: globalCTA.acf.cta_primary_button,
+  secondaryButton: globalCTA.acf.cta_secondary_button,
+};
+---
+
+<Layout>
+  <Clients
+    clients={clients}
+    heroBackground={heroBackground.source_url}
+    statisticIcons={statisticIcons}
+    brandLogos={brandLogos}
+    industryIcons={industryIcons}
+    trustIcons={trustIcons}
+    cta={cta}
+  />
+</Layout>

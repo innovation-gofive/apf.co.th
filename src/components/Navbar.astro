@@ -1,0 +1,97 @@
+---
+import "../styles/Navbar.css";
+
+const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+
+const menus = [
+  { title: "หน้าหลัก", href: "/" },
+  { title: "เกี่ยวกับเรา", href: "/about" },
+  { title: "บริการ", href: "/services" },
+  { title: "ระบบของเรา", href: "/system" },
+  { title: "ลูกค้าของเรา", href: "/clients" },
+];
+
+const serviceSubmenu = [
+  { title: "B2B Fulfillment", href: "/service-detail#b2b" },
+  { title: "Warehouse Management", href: "/service-detail#warehouse" },
+  { title: "B2C Fulfillment", href: "/service-detail#b2c" },
+  { title: "Transportation Services", href: "/service-detail#transportation" },
+];
+---
+
+<header class="navbar">
+
+    <div class="container navbar-container">
+
+        <a href="/" class="logo">
+            <img src="/images/logo.png" alt="APF Logo" />
+        </a>
+
+        <button class="menu-toggle" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+        
+        <div class="navbar-right">
+
+            <nav class="menu">
+
+                {
+                    menus.map((menu) => menu.href === "/services" ? (
+                        <div class="menu-item menu-item--has-submenu">
+                            <a
+                                href={menu.href}
+                                class:list={{ active: currentPath === menu.href }}
+                                aria-current={currentPath === menu.href ? "page" : undefined}
+                            >
+                                {menu.title}
+                            </a>
+                            <div class="submenu">
+                                {serviceSubmenu.map((child) => <a href={child.href}>{child.title}</a>)}
+                            </div>
+                        </div>
+                    ) : (
+                        <a
+                            href={menu.href}
+                            class:list={{ active: currentPath === menu.href }}
+                            aria-current={currentPath === menu.href ? "page" : undefined}
+                        >
+                            {menu.title}
+                        </a>
+                    ))
+                }
+
+            </nav>
+
+            <a href="tel:027845888" class="phone">
+
+                <img
+                    src="/images/phone-icon.png"
+                    alt="Phone"
+                />
+
+                <span>0-2784-5888</span>
+
+            </a>
+
+            <a href="/contact" class="btn btn-primary">
+                ติดต่อเรา
+            </a>
+
+        </div>
+
+    </div>
+
+</header>
+
+<script>
+
+const button = document.querySelector(".menu-toggle");
+const menu = document.querySelector(".navbar-right");
+
+button?.addEventListener("click", () => {
+    menu?.classList.toggle("active");
+});
+
+</script>

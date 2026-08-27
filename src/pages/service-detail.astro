@@ -1,0 +1,12 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ServiceDetail from "../sections/ServiceDetail.astro";
+import { getMediaMap, getPageBySlug } from "../services/wordpress";
+
+const page = await getPageBySlug("service-detail");
+const media = await getMediaMap(page.acf);
+---
+
+<Layout>
+  <ServiceDetail acf={page.acf} media={media} />
+</Layout>

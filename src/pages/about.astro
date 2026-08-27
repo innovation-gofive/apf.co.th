@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+import About from "../sections/About.astro";
+import {
+  getMedia,
+  getMediaList,
+  getPageBySlug,
+} from "../services/wordpress";
+
+const about = await getPageBySlug("about");
+const acf = about.acf;
+const [
+  heroBackground,
+  statisticIcons,
+  valueIcons,
+  platformIcons,
+  facilityImages,
+  globalCTA,
+] = await Promise.all([
+  getMedia(acf.hero_background_image),
+  getMediaList(
+    [1, 2, 3, 4].map((n) => acf[`card_${n}`][`statistic_${n}_icon`]),
+  ),
+  getMediaList(
+    [1, 2, 3, 4, 5].map((n) => acf[`value_cards_${n}`][`value_${n}_icon`]),
+  ),
+  getMediaList(
+    [1, 2, 3, 4].map((n) => acf[`platform_cards_${n}`][`platform_${n}_icon`]),
+  ),
+  getMediaList(
+    [1, 2, 3, 4].map((n) => acf[`facility_images_${n}`][`facility_${n}_image`]),
+  ),
+  getPageBySlug("global-cta"),
+]);
+
+const ctaBackground = await getMedia(globalCTA.acf.cta_background_image);
+const cta = {
+  background: ctaBackground.source_url,
+  descriptionTitle: globalCTA.acf.cta_description_title,
+  title: globalCTA.acf.cta_title,
+  description: globalCTA.acf.cta_description,
+  primaryButton: globalCTA.acf.cta_primary_button,
+  secondaryButton: globalCTA.acf.cta_secondary_button,
+};
+---
+
+<Layout>
+  <About
+    about={about}
+    heroBackground={heroBackground.source_url}
+    statisticIcons={statisticIcons}
+    valueIcons={valueIcons}
+    platformIcons={platformIcons}
+    facilityImages={facilityImages}
+    cta={cta}
+  />
+</Layout>

@@ -1,0 +1,17 @@
+---
+import ServiceFeatureList from "./ServiceFeatureList.astro";
+const { group, image, compact = false, secondaryImage = false, descriptionBreakAfter = "", featureLineBreakBefore = {} } = Astro.props;
+const features = [1, 2, 3, 4].map((number) => group?.[`feature_${number}`]).filter(Boolean);
+const description = group?.description ?? "";
+const breakIndex = descriptionBreakAfter ? description.indexOf(descriptionBreakAfter) : -1;
+const descriptionBeforeBreak = breakIndex >= 0 ? description.slice(0, breakIndex + descriptionBreakAfter.length) : description;
+const descriptionAfterBreak = breakIndex >= 0 ? description.slice(breakIndex + descriptionBreakAfter.length).trim() : "";
+---
+
+<article class:list={["feature-block", { "feature-block--compact": compact }]}>
+  <div class="feature-block__visual">
+    {image(group?.image) && <img src={image(group.image)} alt="" />}
+    {secondaryImage && image(group?.image_2) && <img class="feature-block__secondary-image" src={image(group.image_2)} alt="" />}
+  </div>
+  <div class="feature-block__copy"><p class="eyebrow">{group?.small_title}</p><h3>{group?.title}</h3><p class="feature-block__description">{descriptionBeforeBreak}{descriptionAfterBreak && <><br />{descriptionAfterBreak}</>}</p><ServiceFeatureList {features} {image} lineBreakBefore={featureLineBreakBefore} /></div>
+</article>

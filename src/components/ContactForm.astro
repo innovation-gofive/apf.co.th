@@ -1,0 +1,80 @@
+---
+---
+
+<div class="contact-form-card">
+  <h2>ส่งข้อความถึงเรา</h2>
+  <p class="contact-form-card__intro">กรอกข้อมูลของคุณ แล้วเราจะติดต่อกลับโดยเร็วที่สุด</p>
+  <div class="contact-tabs" role="tablist" aria-label="ประเภทการติดต่อ">
+    <button type="button" class="contact-tab is-active" role="tab" aria-selected="true" aria-controls="inquiry-panel" id="inquiry-tab" data-tab="inquiry">ติดต่อสอบถาม</button>
+    <button type="button" class="contact-tab" role="tab" aria-selected="false" aria-controls="demo-panel" id="demo-tab" data-tab="demo">นัด Demo ระบบ</button>
+  </div>
+
+  <form id="contact-form" novalidate>
+    <input type="hidden" name="formType" value="inquiry" />
+    <div id="inquiry-panel" role="tabpanel" aria-labelledby="inquiry-tab" data-panel="inquiry">
+      <div class="form-grid">
+        <label>ชื่อ-นามสกุล <b>*</b><input name="name" required autocomplete="name" placeholder="กรุณากรอกชื่อ-นามสกุล" /><small></small></label>
+        <label>บริษัท<input name="company" autocomplete="organization" placeholder="กรุณากรอกชื่อบริษัท" /><small></small></label>
+        <label>อีเมล <b>*</b><input name="email" type="email" required autocomplete="email" placeholder="กรุณากรอกอีเมล" /><small></small></label>
+        <label>เบอร์โทรศัพท์ <b>*</b><input name="phone" type="tel" required autocomplete="tel" placeholder="กรุณากรอกเบอร์โทรศัพท์" /><small></small></label>
+      </div>
+      <label>เรื่อง <b>*</b><input name="subject" required placeholder="กรุณากรอกเรื่องที่ต้องการแจ้ง" /><small></small></label>
+    </div>
+    <div id="demo-panel" role="tabpanel" aria-labelledby="demo-tab" data-panel="demo" hidden>
+      <div class="form-grid">
+        <label>ชื่อ-นามสกุล <b>*</b><input name="name" required disabled autocomplete="name" placeholder="กรุณากรอกชื่อ-นามสกุล" /><small></small></label>
+        <label>บริษัท<input name="company" disabled autocomplete="organization" placeholder="กรุณากรอกชื่อบริษัท" /><small></small></label>
+        <label>อีเมล <b>*</b><input name="email" type="email" required disabled autocomplete="email" placeholder="กรุณากรอกอีเมล" /><small></small></label>
+        <label>เบอร์โทรศัพท์ <b>*</b><input name="phone" type="tel" required disabled autocomplete="tel" placeholder="กรุณากรอกเบอร์โทรศัพท์" /><small></small></label>
+      </div>
+      <h3 class="demo-heading">รายละเอียดการนัด Demo</h3>
+      <div class="form-grid">
+        <label>วันที่ <b>*</b><input name="date" type="date" required disabled /><small></small></label>
+        <label>เวลา <b>*</b><input name="time" type="time" required disabled /><small></small></label>
+      </div>
+      <fieldset><legend>รูปแบบการนัดหมาย <b>*</b></legend><div class="appointment-options"><label><input type="radio" name="appointmentType" value="Online Meeting" required disabled /> Online Meeting</label><label><input type="radio" name="appointmentType" value="เข้าพบที่บริษัท" required disabled /> เข้าพบที่บริษัท</label></div><small></small></fieldset>
+    </div>
+    <label>รายละเอียดที่ต้องการติดต่อ <b>*</b><textarea name="message" required placeholder="กรุณากรอกรายละเอียดที่ต้องการติดต่อ"></textarea><small></small></label>
+    <label class="privacy"><input type="checkbox" name="privacy" required /> <span>ยินยอมให้บริษัทจัดเก็บข้อมูลเพื่อการติดต่อกลับและการให้บริการ</span><small></small></label>
+    <p class="form-status" role="status" aria-live="polite"></p>
+    <button class="contact-submit" type="submit">ส่งข้อความ <span aria-hidden="true">➜</span></button>
+  </form>
+</div>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>("#contact-form");
+  const tabs = document.querySelectorAll<HTMLButtonElement>(".contact-tab");
+  const panels = document.querySelectorAll<HTMLElement>("[data-panel]");
+  const status = document.querySelector<HTMLElement>(".form-status");
+  const successMessage = "ส่งข้อมูลเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด";
+  const errorMessage = "ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่อีกครั้ง";
+
+  const clearErrors = () => form?.querySelectorAll(".has-error").forEach((element) => element.classList.remove("has-error"));
+  const setTab = (type: string) => {
+    clearErrors(); if (status) status.textContent = "";
+    const typeField = form?.querySelector<HTMLInputElement>("[name=formType]");
+    if (typeField) typeField.value = type;
+    tabs.forEach((tab) => { const active = tab.dataset.tab === type; tab.classList.toggle("is-active", active); tab.setAttribute("aria-selected", String(active)); });
+    panels.forEach((panel) => { const active = panel.dataset.panel === type; panel.hidden = !active; panel.querySelectorAll<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>("input, textarea, select").forEach((field) => field.disabled = !active); });
+  };
+  tabs.forEach((tab) => tab.addEventListener("click", () => setTab(tab.dataset.tab || "inquiry")));
+  const setTabFromHash = () => setTab(location.hash === "#demo" ? "demo" : "inquiry");
+  setTabFromHash();
+  window.addEventListener("hashchange", setTabFromHash);
+
+  form?.addEventListener("submit", async (event) => {
+    event.preventDefault(); clearErrors(); if (status) status.textContent = "";
+    const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input:not(:disabled), textarea:not(:disabled)")];
+    const invalid = fields.filter((field) => !field.checkValidity());
+    invalid.forEach((field) => { const label = field.closest("label, fieldset"); label?.classList.add("has-error"); const hint = label?.querySelector("small"); if (hint) hint.textContent = field.validity.valueMissing ? "กรุณากรอกข้อมูลให้ครบถ้วน" : "กรุณากรอกข้อมูลให้ถูกต้อง"; });
+    if (invalid.length) { invalid[0].focus(); return; }
+    const submit = form.querySelector<HTMLButtonElement>("[type=submit]"); if (submit) { submit.disabled = true; submit.textContent = "กำลังส่งข้อมูล..."; }
+    try {
+      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
+      if (!response.ok) throw new Error("Submission failed");
+      const activeType = form.querySelector<HTMLInputElement>("[name=formType]")?.value || "inquiry";
+      form.reset(); setTab(activeType); if (status) { status.textContent = successMessage; status.className = "form-status is-success"; }
+    } catch { if (status) { status.textContent = errorMessage; status.className = "form-status is-error"; } }
+    finally { if (submit) { submit.disabled = false; submit.innerHTML = 'ส่งข้อความ <span aria-hidden="true">➜</span>'; } }
+  });
+</script>

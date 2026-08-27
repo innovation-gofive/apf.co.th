@@ -1,0 +1,79 @@
+---
+import "../styles/Contact.css";
+import ContactForm from "../components/ContactForm.astro";
+
+const { contact, heroBackground, benefitIcons, contactInfoIcons, mapImage } = Astro.props;
+const acf = contact.acf;
+const contactInfoGroups = [
+  { key: "contact_info_phone", type: "phone" },
+  { key: "email", type: "email" },
+  { key: "address", type: "address" },
+  { key: "contact_info_website", type: "website" },
+];
+const benefits = [1, 2, 3, 4, 5].map((number, index) => ({
+  ...acf[`contact_benefit_${number}`],
+  icon: benefitIcons[index],
+}));
+---
+
+<section class="contact-hero" style={heroBackground ? `background-image: url('${heroBackground}')` : undefined}>
+  <div class="container contact-hero__content">
+    <p class="contact-hero__english">{acf.contact_hero_english_title}</p>
+    <h1>{acf.contact_hero_thai_title}</h1>
+    <div class="contact-hero__line"></div>
+    <p class="contact-hero__description">{acf.contact_hero_description}</p>
+  </div>
+</section>
+
+<section class="contact-main section">
+  <div class="container contact-main__grid">
+    <aside class="contact-information">
+      <h2>{acf.contact_info_main_title}</h2>
+      <div class="contact-information__list">
+        {contactInfoGroups.map(({ key, type }, index) => {
+          const item = acf[key];
+          const primary = item?.phone_number || item?.email || item?.company_name || item?.website_url;
+          return item && <article class="contact-information__item">
+            {contactInfoIcons[index] && <span class="contact-information__icon"><img src={contactInfoIcons[index]} alt="" /></span>}
+            <div>
+              <h3>{item.title}</h3>
+              {type === "phone" ? <a href={`tel:${String(primary).replace(/[^+\d]/g, "")}`}>{primary}</a> : null}
+              {type === "email" ? <a href={`mailto:${primary}`}>{primary}</a> : null}
+              {type === "website" ? <a href={primary} target="_blank" rel="noreferrer">{primary}</a> : null}
+              {type === "address" ? <p class="contact-information__primary">{primary}</p> : null}
+              <p>{item.description || item.address}</p>
+            </div>
+          </article>;
+        })}
+      </div>
+    </aside>
+    <ContactForm />
+  </div>
+</section>
+
+<section class="contact-benefits">
+  <div class="container">
+    <div class="contact-benefits__grid">
+      {benefits.map((benefit) => <article class="contact-benefit">
+        {benefit.icon && <img src={benefit.icon} alt="" />}
+        <h2>{benefit.title}</h2>
+        <p>{benefit.description}</p>
+      </article>)}
+    </div>
+  </div>
+</section>
+
+<section class="contact-location section">
+  <div class="container">
+    <div class="contact-location__panel">
+      <div class="contact-location__content">
+        <p class="section-eyebrow">{acf.contact_location_small_title}</p>
+        <h2>{acf.contact_location_main_title}</h2>
+        <div class="contact-location__line"></div>
+        <p>{acf.contact_location_description}</p>
+        {acf.contact_location_button_text && <a href={acf.contact_location_button_url} target="_blank" rel="noreferrer" class="contact-location__button">{acf.contact_location_button_text}<span aria-hidden="true">↗</span></a>}
+      </div>
+      {mapImage && <a class="contact-location__map-link" href={acf.contact_location_button_url} target="_blank" rel="noreferrer" aria-label="เปิดแผนที่ใน Google Maps"><img class="contact-location__map" src={mapImage} alt="แผนที่บริษัท APF" loading="lazy" /></a>}
+    </div>
+  </div>
+</section>

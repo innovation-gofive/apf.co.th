@@ -1,0 +1,28 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Contact from "../sections/Contact.astro";
+import { getMedia, getPageBySlug } from "../services/wordpress";
+
+const contact = await getPageBySlug("contact");
+const acf = contact.acf;
+
+const getMediaUrl = async (value: unknown) => {
+  if (!value) return null;
+  if (typeof value === "string") return value;
+  if (typeof value === "object" && value && "url" in value) return String(value.url);
+  const media = await getMedia(Number(value));
+  return media.source_url;
+};
+
+const [heroBackground, benefitIcons, mapImage, contactInfoIcons] = await Promise.all([
+  getMediaUrl(acf.contact_hero_background_image),
+  Promise.all([1, 2, 3, 4, 5].map((number) => getMediaUrl(acf[`contact_benefit_${number}`]?.icon))),
+  getMediaUrl(acf.contact_location_map_image),
+  Promise.all(["contact_info_phone", "email", "address", "contact_info_website"].map((key) => getMediaUrl(acf[key]?.icon))),
+]);
+---
+
+<Layout>
+  <Fragment slot="head"><title>ติดต่อเรา | APF</title></Fragment>
+  <Contact contact={contact} heroBackground={heroBackground} benefitIcons={benefitIcons} contactInfoIcons={contactInfoIcons} mapImage={mapImage} />
+</Layout>

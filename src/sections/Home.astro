@@ -1,0 +1,861 @@
+---
+import "../styles/Home.css";
+
+const {
+    home,
+    background,
+    featureIcons,
+    serviceIcons,
+    operatingIcons,
+    whyChooseImage,
+    whyChooseIcons,
+    technologyImages,
+    platformIcons,
+    smartPlatformBackground,
+    smartPlatformIcons,
+    warehouseImage,
+    locationImage,
+    locationIcons,
+    clients,
+    cta,
+} = Astro.props;
+
+const hero = home.acf;
+
+const features = [
+    {
+        ...hero.features.feature_1,
+        icon: featureIcons[0]
+    },
+    {
+        ...hero.features.feature_2,
+        icon: featureIcons[1]
+    },
+    {
+        ...hero.features.feature_3,
+        icon: featureIcons[2]
+    }
+];
+const services = [
+    {
+        ...hero.service_cards.service_1,
+        icon: serviceIcons[0]
+    },
+    {
+        ...hero.service_cards.service_2,
+        icon: serviceIcons[1]
+    },
+    {
+        ...hero.service_cards.service_3,
+        icon: serviceIcons[2]
+    },
+    {
+        ...hero.service_cards.service_4,
+        icon: serviceIcons[3]
+    }
+];
+
+const serviceDescriptionLines = (value: unknown) => String(value ?? "").split(/(?:\u2028\r?\n?|\r\n|\r|\n)/);
+const operatingSteps = [
+    {
+        ...home.acf.step_1,
+        icon: operatingIcons[0]
+    },
+    {
+        ...home.acf.step_2,
+        icon: operatingIcons[1]
+    },
+    {
+        ...home.acf.step_3,
+        icon: operatingIcons[2]
+    },
+    {
+        ...home.acf.step_4,
+        icon: operatingIcons[3]
+    },
+    {
+        ...home.acf.step_5,
+        icon: operatingIcons[4]
+    },
+    {
+        ...home.acf.step_6,
+        icon: operatingIcons[5]
+    }
+];
+const whyChooseFeatures = [
+    {
+        ...home.acf.why_choose_feature_1,
+        icon: whyChooseIcons[0]
+    },
+    {
+        ...home.acf.why_choose_feature_2,
+        icon: whyChooseIcons[1]
+    },
+    {
+        ...home.acf.why_choose_feature_3,
+        icon: whyChooseIcons[2]
+    },
+    {
+        ...home.acf.why_choose_feature_4,
+        icon: whyChooseIcons[3]
+    }
+];
+const technologyCards = [
+    {
+        image: technologyImages[0],
+        title: home.acf.technology_card_1.title,
+        description: home.acf.technology_card_1.description,
+    },
+    {
+        image: technologyImages[1],
+        title: home.acf.technology_card_2.title,
+        description: home.acf.technology_card_2.description,
+    },
+    {
+        image: technologyImages[2],
+        title: home.acf.technology_card_3.title,
+        description: home.acf.technology_card_3.description,
+    },
+    {
+        image: technologyImages[3],
+        title: home.acf.technology_card_4.title,
+        description: home.acf.technology_card_4.description,
+    },
+];
+const platforms = [
+    {
+        icon: platformIcons[0],
+        title: home.acf.our_platform_1.title,
+        description: home.acf.our_platform_1.description,
+    },
+    {
+        icon: platformIcons[1],
+        title: home.acf.our_platform_2.title,
+        description: home.acf.our_platform_2.description,
+    },
+    {
+        icon: platformIcons[2],
+        title: home.acf.our_platform_3.title,
+        description: home.acf.our_platform_3.description,
+    },
+    {
+        icon: platformIcons[3],
+        title: home.acf.our_platform_4.title,
+        description: home.acf.our_platform_4.description,
+    },
+];
+const smartFeatures = [
+    {
+        icon: smartPlatformIcons[0],
+        title: home.acf.feature_1.title,
+    },
+    {
+        icon: smartPlatformIcons[1],
+        title: home.acf.feature_2.title,
+    },
+    {
+        icon: smartPlatformIcons[2],
+        title: home.acf.feature_3.title,
+    },
+    {
+        icon: smartPlatformIcons[3],
+        title: home.acf.feature_4.title,
+    },
+];
+const splitSmartFeatureTitle = (title = "") => {
+    const match = title.match(/^(.*?)\s*(\([^)]*\))\s*$/);
+
+    return match
+        ? { label: match[1].trim(), detail: match[2] }
+        : { label: title, detail: "" };
+};
+const warehouse = home.acf.warehouse_capacity;
+
+const location = home.acf.our_location;
+
+const locationFeatures = [
+    {
+        icon: locationIcons[0],
+        title: location.feature_1.title_our_location,
+        subtitle: location.feature_1.subtitle,
+    },
+    {
+        icon: locationIcons[1],
+        title: location.feature_2.title_our_location,
+        subtitle: location.feature_2.subtitle,
+    },
+    {
+        icon: locationIcons[2],
+        title: String(location.feature_3.title_our_location ?? "")
+            .replace(/\s*รวดเร็ว\s*/g, "")
+            .trim(),
+        subtitle: location.feature_3.subtitle,
+    },
+];
+
+---
+
+<!-- =========================================
+Hero
+========================================= -->
+
+<section
+    class="hero"
+    style={`background-image: url('${background}')`}
+>
+
+    <div class="hero-overlay"></div>
+
+    <div class="container hero-content">
+
+        <div class="hero-text">
+
+            <h1>
+                {hero.hero_title}
+                <br />
+                {hero.hero_subtitle}
+                <span>{hero.hero_highlight}</span>
+            </h1>
+
+            <p>{hero.hero_description}</p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href={hero.primary_button.url}
+                    class="btn btn-primary"
+                >
+                    {hero.primary_button.text}
+                </a>
+
+                <a
+                    href={hero.secondary_button.url}
+                    class="btn btn-secondary"
+                >
+                    {hero.secondary_button.text}
+                </a>
+
+            </div>
+
+<!-- =========================================
+Hero Features
+========================================= -->
+
+    <div class="hero-features">
+
+    {
+        features.map((feature, index) => (
+            <>
+                <div class="feature">
+
+                    <img
+                        src={feature.icon}
+                        alt={feature.text}
+                    />
+
+                    <span>{feature.text}</span>
+
+                </div>
+
+                {
+                    index < features.length - 1 &&
+                    <span class="feature-divider"></span>
+                }
+            </>
+        ))
+    }
+
+    </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+Service Cards
+========================================= -->
+
+<section class="service-section">
+
+    <div class="container">
+
+        <div class="service-cards">
+
+            {
+                services.map((service, index) => (
+
+            <a
+                href={`/service-detail#${["b2b", "warehouse", "b2c", "transportation"][index]}`}
+                class={`service-card ${index % 2 === 0 ? "blue" : "green"}`}
+            >
+
+                <div class="service-icon">
+
+                    <img
+                        src={service.icon}
+                        alt={service.title}
+                    />
+
+                </div>
+
+                <div class="service-info">
+
+                    <div class="service-content">
+
+                        <h3>{service.title}</h3>
+
+                        <p>{serviceDescriptionLines(service.description).map((line) => <span class="service-description-line">{line}</span>)}</p>
+
+                    </div>
+
+                <div class="service-link">
+                    {service.button_text}
+                </div>
+
+            </div>
+            </a>
+                ))
+            }
+
+        </div>
+
+    </div>
+
+</section>
+<!-- =========================================
+Operating Model
+========================================= -->
+
+<section class="operating-section">
+
+    <div class="container">
+
+        <div class="operating-content">
+
+            <div class="operating-header">
+
+                <span class="operating-label">
+                    {home.acf.section_title}
+                </span>
+
+                <h2>
+                    {home.acf.section_description}
+                </h2>
+
+            </div>
+
+            <div class="operating-steps">
+
+                {
+                    operatingSteps.map((step, index) => (
+                        <>
+                            <div class="operating-step">
+
+                                <img
+                                    src={step.icon}
+                                    alt={step.title}
+                                />
+
+                                <h3>{step.title}</h3>
+
+                                <p>{step.description}</p>
+
+                            </div>
+
+                            {
+                                index < operatingSteps.length - 1 && (
+                                    <span class="step-arrow">
+                                        ›
+                                    </span>
+                                )
+                            }
+
+                        </>
+                    ))
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+Why Choose Us
+========================================= -->
+
+<section class="why-section">
+
+    <div class="container">
+
+        <div class="why-wrapper">
+
+            <!-- Left -->
+            <div class="why-content">
+
+                <span class="why-label">
+                    {home.acf.why_choose_title}
+                </span>
+
+                <h2>
+                    {home.acf.why_choose_description}
+                </h2>
+
+                <div class="why-list">
+
+                    {
+                        whyChooseFeatures.map((item) => (
+
+                            <div class="why-item">
+
+                                <img
+                                    src={item.icon}
+                                    alt={item.text}
+                                />
+
+                                <span>
+                                    {item.text}
+                                </span>
+
+                            </div>
+
+                        ))
+                    }
+
+                </div>
+
+                <a
+                    href="/about"
+                    class="why-btn"
+                >
+                    {home.acf.why_choose_button.text}
+                </a>
+
+            </div>
+
+            <!-- Right -->
+            <div class="why-image">
+
+                <img
+                    src={whyChooseImage}
+                    alt={home.acf.why_choose_title}
+                />
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+Technology & Automation
+========================================= -->
+
+<section class="technology">
+
+    <div class="container">
+
+        <div class="technology-wrapper">
+
+            <h2 class="technology-title">
+                {home.acf.technology_title}
+            </h2>
+
+            <p class="technology-description">
+                {home.acf.technology_description}
+            </p>
+
+            <div class="technology-grid">
+
+                {
+                    technologyCards.map((card) => (
+
+                        <div class="technology-card">
+
+                            <img
+                                src={card.image}
+                                alt={card.title}
+                            />
+
+                            <div class="technology-content">
+
+                                <h3>{card.title}</h3>
+
+                                <p>{card.description}</p>
+
+                            </div>
+
+                        </div>
+
+                    ))
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+Our Platform
+========================================= -->
+
+<section class="our-platform">
+
+    <div class="container">
+
+        <div class="our-platform-wrapper">
+
+            <!-- Left -->
+
+            <div class="our-platform-left">
+
+                <div class="our-platform-header">
+
+                    <h2 class="our-platform-title">
+                        {home.acf.our_platform_title}
+                    </h2>
+
+                    <p class="our-platform-description">
+                        {home.acf.our_platform_description}
+                    </p>
+
+                </div>
+
+                <div class="our-platform-list">
+
+                    {
+                        platforms.map((item) => (
+
+                            <div class="platform-item">
+
+                                <div class="platform-icon">
+                                    <img src={item.icon} alt={item.title} />
+                                </div>
+
+                                <div class="platform-content">
+
+                                    <h3 class="platform-title">
+                                        {serviceDescriptionLines(item.title).map((line) => (
+                                            <span class="platform-title-line">{line}</span>
+                                        ))}
+                                    </h3>
+
+                                    <p class="platform-description">
+                                        {serviceDescriptionLines(item.description).map((line) => (
+                                            <span class="platform-description-line">{line}</span>
+                                        ))}
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        ))
+                    }
+
+                </div>
+
+            </div>
+
+            <!-- Right -->
+
+            <div class="our-platform-right">
+
+                <video
+                    src="/video/LOGO%20APF_final_High.mp4"
+                    autoplay
+                    muted
+                    loop
+                    playsinline
+                    controls
+                    aria-label={home.acf.our_platform_title}
+                ></video>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+Smart Platform Features
+========================================= -->
+
+<section class="smart-platform">
+
+    <div class="container">
+
+        <div
+            class="smart-platform-wrapper"
+            style={`background-image: url('${smartPlatformBackground}')`}
+        >
+
+            <h2 class="smart-platform-title">
+                {home.acf.section_smart_platform_title}
+            </h2>
+
+            <div class="smart-platform-list">
+
+                {
+                    smartFeatures.map((feature) => {
+                        const title = splitSmartFeatureTitle(feature.title);
+
+                        return (
+
+                        <div class="smart-platform-item">
+
+                            <img
+                                src={feature.icon}
+                                alt={feature.title}
+                            />
+
+                            <span>
+                                {title.label}
+                                {title.detail && <span class="smart-platform-item__detail">{title.detail}</span>}
+                            </span>
+
+                        </div>
+
+                        );
+                    })
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+Warehouse & Our Location
+========================================= -->
+
+<section class="warehouse-location">
+
+    <div class="container">
+
+        <div class="warehouse-location-grid">
+
+            <!-- Warehouse -->
+
+            <div
+                class="warehouse-card"
+                style={`background-image: url('${warehouseImage}')`}
+            >
+
+                <div class="warehouse-content">
+
+                    <h2 class="warehouse-title">
+                        {warehouse.title_warehouse_capacity}
+                    </h2>
+
+                    <p class="warehouse-subtitle">
+                        {warehouse.subtitle_warehouse_capacity}
+                    </p>
+
+                    <ul class="warehouse-list">
+
+                        <li>{warehouse.feature_1_warehouse_capacity}</li>
+                        <li>{warehouse.feature_2_warehouse_capacity}</li>
+                        <li>{warehouse.feature_3_warehouse_capacity}</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+            <!-- Location -->
+
+            <div
+                class="location-card"
+                style={`background-image: url('${locationImage}')`}
+            >
+
+                <div class="location-content">
+
+                    <h2 class="location-title">
+                        {location.title_our_location}
+                    </h2>
+
+                    <p class="location-subtitle">
+                        {location.subtitle_our_location}
+                    </p>
+
+                    <div class="location-list">
+
+                        {
+                            locationFeatures.map((feature) => (
+
+                                <div class="location-item">
+
+                                    <img
+                                        src={feature.icon}
+                                        alt={feature.title}
+                                    />
+
+                                    <div class="location-text">
+
+                                        <span
+                                            class:list={[
+                                                "location-feature-title",
+                                                { "single-line": !feature.subtitle }
+                                            ]}
+                                        >
+                                            {feature.title}
+                                        </span>
+
+                                        {
+                                            feature.subtitle && (
+                                                <span class="location-feature-subtitle">
+                                                    {feature.subtitle}
+                                                </span>
+                                            )
+                                        }
+
+                                    </div>
+                                </div>
+
+                            ))
+                        }
+
+                    </div>
+
+                    <a
+                        href={location.button.url}
+                        class="location-button"
+                        target="_blank"
+                        rel="noreferrer"
+                    >
+                        {location.button.title}
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+Our Clients
+========================================= -->
+
+<section class="our-clients">
+
+    <div class="container">
+
+        <div class="our-clients-wrapper">
+
+            <div class="our-clients-header">
+
+                <h2 class="our-clients-title">
+                    {clients.title}
+                </h2>
+
+                <p class="our-clients-description">
+                    {clients.description}
+                </p>
+
+            </div>
+
+            <div class="clients-marquee">
+
+                <div class="clients-track">
+
+                    {
+                        [...clients.logos, ...clients.logos].map((logo: any) => (
+
+                            <div class="client-logo">
+
+                                <img
+                                    src={logo}
+                                    alt="Client Logo"
+                                    loading="lazy"
+                                />
+
+                            </div>
+
+                        ))
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- =========================================
+CTA Banner
+========================================= -->
+
+<section class="cta-banner">
+
+    <div
+        class="container"
+    >
+
+        <div
+            class="cta-wrapper"
+            style={`background-image:url(${cta.background})`}
+        >
+
+            <div class="cta-content">
+
+                <p class="cta-eyebrow">
+                    {cta.descriptionTitle}
+                </p>
+
+                <h2 class="cta-title">
+                    {cta.title}
+                </h2>
+
+                <p class="cta-description">
+                    {cta.description}
+                </p>
+
+            </div>
+
+            <div class="cta-buttons">
+
+                <a
+                    href="/contact#inquiry"
+                    class="btn-outline"
+                >
+                    {cta.primaryButton.cta_primary_text}
+                </a>
+
+                <a
+                    href="/contact#demo"
+                    class="btn-outline"
+                >
+                    {cta.secondaryButton.cta_secondary_text}
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

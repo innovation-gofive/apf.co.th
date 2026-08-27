@@ -1,0 +1,11 @@
+---
+const { eyebrow, title, description, steps = [], image, compact = false } = Astro.props;
+---
+
+<section class:list={["process-block", { "process-block--compact": compact }]}>
+  <p class="eyebrow">{eyebrow}</p><h3>{title}</h3>{description && <p class="process-block__description">{description}</p>}
+  <div class="process-block__steps">{steps.map((step: any, index: number) => <article>
+    <span class="step-number">{String(index + 1).padStart(2, "0")}</span>
+    {image(step.icon) && <div class="process-icon"><img src={image(step.icon)} alt="" /></div>}<h4>{step.title}</h4>{step.description && <p>{step.description}</p>}
+  </article>)}</div>
+</section>

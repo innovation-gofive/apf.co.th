@@ -1,0 +1,157 @@
+---
+import "../styles/Clients.css";
+import "../styles/Home.css";
+
+type ImageList = Array<string | null>;
+
+interface ClientsProps {
+  clients: { acf: Record<string, any> };
+  heroBackground: string;
+  statisticIcons: ImageList;
+  brandLogos: ImageList;
+  industryIcons: ImageList;
+  trustIcons: ImageList;
+  cta: {
+    background: string;
+    descriptionTitle?: string;
+    title?: string;
+    description?: string;
+    primaryButton?: { cta_primary_url?: string; cta_primary_text?: string };
+    secondaryButton?: { cta_secondary_url?: string; cta_secondary_text?: string };
+  };
+}
+
+const { clients, heroBackground, statisticIcons, brandLogos, industryIcons, trustIcons, cta } = Astro.props as ClientsProps;
+const acf = clients.acf;
+
+const statistics = [1, 2, 3].map((number, index) => ({
+  icon: statisticIcons[index],
+  value: acf[`customers_hero_statistic_${number}`]?.value,
+  description: acf[`customers_hero_statistic_${number}`]?.description,
+})).filter((statistic) => statistic.value || statistic.description || statistic.icon);
+
+const industries = [1, 2, 3, 4].map((number, index) => ({
+  icon: industryIcons[index],
+  title: acf[`customers_industry_${number}`]?.title,
+  description: acf[`customers_industry_${number}`]?.description,
+})).filter((industry) => industry.title || industry.description || industry.icon);
+
+const trustItems = [1, 2, 3, 4].map((number, index) => ({
+  icon: trustIcons[index],
+  title: acf[`customers_trust_item_${number}`]?.title,
+  description: acf[`customers_trust_item_${number}`]?.description,
+})).filter((item) => item.title || item.description || item.icon);
+
+const logos = brandLogos.filter((logo): logo is string => Boolean(logo));
+---
+
+<section class="clients-hero" style={`background-image: url('${heroBackground}')`}>
+  <div class="container clients-hero__content">
+    <h1>{acf.customers_hero_main_title}</h1>
+    <span class="clients-hero__line" aria-hidden="true"></span>
+    <p>{acf.customers_hero_description}</p>
+
+    {statistics.length > 0 && (
+      <div class="clients-hero__statistics">
+        {statistics.map((statistic) => (
+          <article class="clients-hero__statistic">
+            {statistic.icon && <img src={statistic.icon} alt="" />}
+            <div>
+              <strong>{statistic.value}</strong>
+              <span>{statistic.description}</span>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </div>
+</section>
+
+<section class="clients-section clients-brands">
+  <div class="container">
+    <div class="clients-panel clients-brands__panel">
+      <header class="clients-heading">
+        <p>{acf.customers_brands_small_title}</p>
+        <h2>{acf.customers_brands_main_title}</h2>
+        <span>{acf.customers_brands_description}</span>
+      </header>
+      {logos.length > 0 && (
+        <>
+          <div class="clients-brands__grid">
+            {logos.map((logo, index) => (
+              <div class="clients-brand" aria-label={`Brand ${index + 1}`}>
+                <img src={logo} alt="" loading="lazy" />
+              </div>
+            ))}
+          </div>
+
+          <div class="clients-brands__marquee">
+            <div class="clients-brands__track">
+              {[...logos, ...logos].map((logo) => (
+                <div class="clients-brand" aria-hidden="true">
+                  <img src={logo} alt="" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          </div>
+        </>
+      )}
+    </div>
+  </div>
+</section>
+
+<section class="clients-section clients-industries">
+  <div class="container">
+    <div class="clients-industries__panel">
+      <header class="clients-heading">
+        <p>{acf.customers_industries_small_title}</p>
+        <h2>{acf.customers_industries_main_title}</h2>
+      </header>
+      <div class="clients-industries__grid">
+        {industries.map((industry) => (
+          <article class="clients-industry">
+            {industry.icon && <img src={industry.icon} alt="" />}
+            <h3>{industry.title}</h3>
+            <p>{industry.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="clients-section clients-trust">
+  <div class="container">
+    <div class="clients-panel clients-trust__panel">
+      <header class="clients-heading">
+        <p>{acf.customers_trust_small_title}</p>
+        <h2>{acf.customers_trust_main_title}</h2>
+      </header>
+      <div class="clients-trust__grid">
+        {trustItems.map((item) => (
+          <article class="clients-trust__item">
+            {item.icon && <img src={item.icon} alt="" />}
+            <h3>{item.title}</h3>
+            <p>{item.description}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-banner">
+  <div class="container">
+    <div class="cta-wrapper" style={`background-image: url('${cta.background}')`}>
+      <div class="cta-content">
+        <p class="cta-eyebrow">{cta.descriptionTitle}</p>
+        <h2 class="cta-title">{cta.title}</h2>
+        <p class="cta-description">{cta.description}</p>
+      </div>
+      <div class="cta-buttons">
+        <a href="/contact#inquiry">{cta.primaryButton?.cta_primary_text}</a>
+        <a href="/contact#demo">{cta.secondaryButton?.cta_secondary_text}</a>
+      </div>
+    </div>
+  </div>
+</section>
