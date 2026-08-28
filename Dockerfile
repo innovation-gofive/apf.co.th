@@ -18,6 +18,9 @@ ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=4321
 
+COPY package.json package-lock.json ./
+RUN npm ci --omit=dev
+
 COPY --chown=node:node --from=build /app/dist ./dist
 
 EXPOSE 4321
