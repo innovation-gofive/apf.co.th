@@ -4,8 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     image: apf:local
-    env_file:
-      - .env
+    environment:
+      PUBLIC_WORDPRESS_API: https://www.apf.co.th/wp-json/wp/v2
+      CONTACT_EMAIL: yuwanida.c@gofive.co.th
+      WP_CONTACT_SECRET: apf-contact-2026-4hP9mK2xQ7vL8nR5zT1wY6
     ports:
       - "4321:4321"
     restart: unless-stopped
