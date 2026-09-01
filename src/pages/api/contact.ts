@@ -1,10 +1,11 @@
 import type { APIRoute } from "astro";
+import { env } from "cloudflare:workers";
 
 export const prerender = false;
 
 const wordpressContactUrl =
-  import.meta.env.WORDPRESS_CONTACT_URL || "https://www.apf.co.th/wp-json/apf/v1/contact";
-const contactSecret = import.meta.env.WP_CONTACT_SECRET;
+  env.WORDPRESS_CONTACT_URL || "https://www.apf.co.th/wp-json/apf/v1/contact";
+const contactSecret = env.WP_CONTACT_SECRET;
 
 export const POST: APIRoute = async ({ request }) => {
   try {
