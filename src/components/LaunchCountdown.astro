@@ -1,0 +1,78 @@
+---
+interface Props {
+  launchAt: number;
+}
+
+const { launchAt } = Astro.props;
+---
+
+<section class="launch-countdown" data-launch-at={launchAt} aria-labelledby="launch-title">
+  <div class="launch-countdown__glow launch-countdown__glow--one"></div>
+  <div class="launch-countdown__glow launch-countdown__glow--two"></div>
+
+  <div class="launch-countdown__content">
+    <img class="launch-countdown__logo" src="/images/logo.png" alt="APF — Alpha Prime Fulfillment" />
+    <h1 id="launch-title">เว็บไซต์กำลังจะเปิดตัว</h1>
+    <p class="launch-countdown__description">เตรียมพบกับบริการ Fulfillment ที่พร้อมขับเคลื่อนธุรกิจของคุณ</p>
+
+    <div class="launch-countdown__timer" aria-label="เวลาที่เหลือก่อนเว็บไซต์เปิดตัว">
+      <div class="launch-countdown__unit"><strong data-days>00</strong><span>วัน</span></div>
+      <div class="launch-countdown__unit"><strong data-hours>00</strong><span>ชั่วโมง</span></div>
+      <div class="launch-countdown__unit"><strong data-minutes>00</strong><span>นาที</span></div>
+      <div class="launch-countdown__unit"><strong data-seconds>00</strong><span>วินาที</span></div>
+    </div>
+
+    <p class="launch-countdown__date">เปิดใช้งานวันที่ 9 กันยายน 2569 เวลา 00:00 น. (ประเทศไทย)</p>
+  </div>
+</section>
+
+<script>
+  const countdown = document.querySelector<HTMLElement>(".launch-countdown");
+  const launchAt = Number(countdown?.dataset.launchAt);
+  const values = {
+    days: countdown?.querySelector<HTMLElement>("[data-days]"),
+    hours: countdown?.querySelector<HTMLElement>("[data-hours]"),
+    minutes: countdown?.querySelector<HTMLElement>("[data-minutes]"),
+    seconds: countdown?.querySelector<HTMLElement>("[data-seconds]"),
+  };
+
+  const updateCountdown = () => {
+    const remaining = launchAt - Date.now();
+    if (remaining <= 0) {
+      window.location.reload();
+      return;
+    }
+
+    const totalSeconds = Math.floor(remaining / 1_000);
+    const units = {
+      days: Math.floor(totalSeconds / 86_400),
+      hours: Math.floor((totalSeconds % 86_400) / 3_600),
+      minutes: Math.floor((totalSeconds % 3_600) / 60),
+      seconds: totalSeconds % 60,
+    };
+    Object.entries(units).forEach(([key, value]) => {
+      const element = values[key as keyof typeof values];
+      if (element) element.textContent = String(value).padStart(2, "0");
+    });
+  };
+
+  updateCountdown();
+  window.setInterval(updateCountdown, 1_000);
+</script>
+
+<style>
+  .launch-countdown { position: relative; display: grid; min-height: 100svh; overflow: hidden; place-items: center; padding: 48px 24px; color: #fff; text-align: center; background: linear-gradient(135deg, #041d57 0%, #092f88 55%, #073f79 100%); isolation: isolate; }
+  .launch-countdown::before { position: absolute; inset: 0; z-index: -1; content: ""; opacity: .14; background-image: linear-gradient(rgba(255,255,255,.45) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.45) 1px, transparent 1px); background-size: 42px 42px; mask-image: linear-gradient(to bottom, #000, transparent); }
+  .launch-countdown__content { width: min(100%, 760px); }
+  .launch-countdown__logo { display: block; width: min(220px, 55vw); height: auto; margin: 0 auto 28px; filter: brightness(0) invert(1); }
+  .launch-countdown h1 { margin: 0; font-size: clamp(2.2rem, 5vw, 4.4rem); line-height: 1.15; }
+  .launch-countdown__description { max-width: 620px; margin: 18px auto 38px; color: rgba(255,255,255,.83); font-size: clamp(1rem, 2vw, 1.25rem); line-height: 1.65; }
+  .launch-countdown__timer { display: grid; grid-template-columns: repeat(4, minmax(78px, 1fr)); gap: clamp(10px, 2vw, 20px); }
+  .launch-countdown__unit { padding: clamp(16px, 3vw, 28px) 8px; border: 1px solid rgba(255,255,255,.27); border-radius: 16px; background: rgba(255,255,255,.11); box-shadow: 0 18px 42px rgba(0,0,0,.14); backdrop-filter: blur(8px); }
+  .launch-countdown__unit strong { display: block; color: #6fe0a7; font-size: clamp(2rem, 5vw, 4.5rem); font-variant-numeric: tabular-nums; line-height: 1; }
+  .launch-countdown__unit span { display: block; margin-top: 10px; color: rgba(255,255,255,.8); font-size: .88rem; }
+  .launch-countdown__date { margin: 30px 0 0; color: rgba(255,255,255,.72); font-size: .92rem; }
+  .launch-countdown__glow { position: absolute; z-index: -1; width: 44vw; aspect-ratio: 1; border-radius: 50%; filter: blur(14px); opacity: .45; background: #13ac68; }
+  .launch-countdown__glow--one { top: -25vw; left: -14vw; }.launch-countdown__glow--two { right: -18vw; bottom: -28vw; background: #2678ff; }
+  @media (max-width: 520px) { .launch-countdown { padding: 34px 16px; }.launch-countdown__timer { gap: 8px; }.launch-countdown__unit { padding: 16px 4px; border-radius: 11px; }.launch-countdown__unit span { font-size: .72rem; }.launch-countdown__date { font-size: .8rem; } }
+</style>

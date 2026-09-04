@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import LaunchCountdown from "../components/LaunchCountdown.astro";
 import Home from "../sections/Home.astro";
 import {
     fetchAPI,
@@ -8,6 +9,9 @@ import {
     getPageBySlug
 } from "../services/wordpress";
 
+// 9 September 2026, 00:00 in Bangkok (UTC+7).
+const launchAt = Date.UTC(2026, 8, 8, 17, 0, 0);
+const isLaunched = Date.now() >= launchAt;
 
 const home = await fetchAPI("/pages/9");
 const background = await getMedia(home.acf.background_image);
@@ -110,7 +114,8 @@ const cta = {
 
 ---
 
-<Layout>
+<Layout showChrome={isLaunched}>
+{isLaunched ? (
 <Home
     home={home}
     background={background.source_url}
@@ -129,4 +134,5 @@ const cta = {
     clients={clients}
     cta={cta}
 />
+ ) : <LaunchCountdown launchAt={launchAt} />}
 </Layout>

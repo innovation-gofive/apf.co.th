@@ -61,7 +61,7 @@
   setTabFromHash();
   window.addEventListener("hashchange", setTabFromHash);
 
-  form?.addEventListener("submit", (event) => {
+  form?.addEventListener("submit", async (event) => {
     event.preventDefault(); clearErrors(); if (status) status.textContent = "";
     const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input:not(:disabled), textarea:not(:disabled)")];
     const invalid = fields.filter((field) => !field.checkValidity());
@@ -87,6 +87,29 @@
       status.textContent = `กำลังเปิดโปรแกรมอีเมล หากโปรแกรมไม่เปิด กรุณาส่งอีเมลไปที่ ${contactEmail}`;
       status.className = "form-status is-success";
     }
-    window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(String(subject))}&body=${encodeURIComponent(body)}`;
+    const submitButton = form.querySelector<HTMLButtonElement>(".contact-submit");
+    if (submitButton) submitButton.disabled = true;
+    if (status) status.textContent = "กำลังส่งข้อความ...";
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(data.entries())),
+      });
+      if (!response.ok) throw new Error("Contact form submission failed");
+      form.reset();
+      setTab("inquiry");
+      if (status) {
+        status.textContent = "ส่งข้อความเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด";
+        status.className = "form-status is-success";
+      }
+    } catch {
+      if (status) {
+        status.textContent = "ไม่สามารถส่งข้อความได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง";
+        status.className = "form-status is-error";
+      }
+    } finally {
+      if (submitButton) submitButton.disabled = false;
+    }
   });
 </script>
