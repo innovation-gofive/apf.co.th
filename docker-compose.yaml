@@ -5,7 +5,7 @@ services:
       dockerfile: Dockerfile
     image: apf:local
     environment:
-      PUBLIC_WORDPRESS_API: https://www.apf.co.th/wp-json/wp/v2
+      PUBLIC_WORDPRESS_API: https://cms.apf.co.th/wp-json/wp/v2
       CONTACT_EMAIL: yuwanida.c@gofive.co.th
       WP_CONTACT_SECRET: apf-contact-2026-4hP9mK2xQ7vL8nR5zT1wY6
     ports:
