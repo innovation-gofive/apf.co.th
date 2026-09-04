@@ -9,8 +9,8 @@ import {
     getPageBySlug
 } from "../services/wordpress";
 
-// 4 September 2026, 17:45 in Bangkok (UTC+7).
-const launchAt = Date.UTC(2026, 8, 4, 10, 45, 0);
+// 9 September 2026, 00:00 in Bangkok (UTC+7).
+const launchAt = Date.UTC(2026, 8, 8, 17, 0, 0);
 
 const home = await fetchAPI("/pages/9");
 const background = await getMedia(home.acf.background_image);
