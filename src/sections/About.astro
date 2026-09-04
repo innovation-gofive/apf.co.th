@@ -2,6 +2,8 @@
 import "../styles/About.css";
 import "../styles/Home.css";
 
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const {
   about,
   heroBackground,
@@ -73,7 +75,7 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
         <p class="about-who__description">{acf.who_we_are_description}</p>
 
         {acf.who_we_are_button_text && (
-          <a class="about-button" href="/services">
+          <a class="about-button" href={`${basePath}/services`}>
             {acf.who_we_are_button_text}
           </a>
         )}
@@ -178,10 +180,10 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
       </div>
 
       <div class="cta-buttons">
-        <a href="/contact#inquiry" class="btn-outline">
+        <a href={`${basePath}/contact#inquiry`} class="btn-outline">
           {cta.primaryButton.cta_primary_text}
         </a>
-        <a href="/contact#demo" class="btn-outline">
+        <a href={`${basePath}/contact#demo`} class="btn-outline">
           {cta.secondaryButton.cta_secondary_text}
         </a>
       </div>

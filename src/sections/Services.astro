@@ -2,6 +2,8 @@
 import "../styles/Services.css";
 import "../styles/Home.css";
 
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const {
   services, heroBackground, heroIcons, serviceImages,
   serviceFeatureIcons, capabilityIcons, cta,
@@ -100,5 +102,5 @@ const capabilities = [1, 2, 3, 4, 5, 6].map((number, index) => ({
 
 <section class="cta-banner"><div class="container"><div class="cta-wrapper" style={`background-image: url('${cta.background}')`}>
   <div class="cta-content"><p class="cta-eyebrow">{cta.descriptionTitle}</p><h2 class="cta-title">{cta.title}</h2><p class="cta-description">{cta.description}</p></div>
-  <div class="cta-buttons"><a href="/contact#inquiry">{cta.primaryButton.cta_primary_text}</a><a href="/contact#demo">{cta.secondaryButton.cta_secondary_text}</a></div>
+  <div class="cta-buttons"><a href={`${basePath}/contact#inquiry`}>{cta.primaryButton.cta_primary_text}</a><a href={`${basePath}/contact#demo`}>{cta.secondaryButton.cta_secondary_text}</a></div>
 </div></div></section>

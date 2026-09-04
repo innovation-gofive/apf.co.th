@@ -3,7 +3,7 @@
 
 <div class="contact-form-card">
   <h2>ส่งข้อความถึงเรา</h2>
-  <p class="contact-form-card__intro">กรอกข้อมูลของคุณ แล้วเราจะติดต่อกลับโดยเร็วที่สุด</p>
+  <p class="contact-form-card__intro">กรอกข้อมูลของคุณ แล้วส่งผ่านโปรแกรมอีเมลเพื่อให้ทีมงานติดต่อกลับ</p>
   <div class="contact-tabs" role="tablist" aria-label="ประเภทการติดต่อ">
     <button type="button" class="contact-tab is-active" role="tab" aria-selected="true" aria-controls="inquiry-panel" id="inquiry-tab" data-tab="inquiry">ติดต่อสอบถาม</button>
     <button type="button" class="contact-tab" role="tab" aria-selected="false" aria-controls="demo-panel" id="demo-tab" data-tab="demo">นัด Demo ระบบ</button>
@@ -37,7 +37,7 @@
     <label>รายละเอียดที่ต้องการติดต่อ <b>*</b><textarea name="message" required placeholder="กรุณากรอกรายละเอียดที่ต้องการติดต่อ"></textarea><small></small></label>
     <label class="privacy"><input type="checkbox" name="privacy" required /> <span>ยินยอมให้บริษัทจัดเก็บข้อมูลเพื่อการติดต่อกลับและการให้บริการ</span><small></small></label>
     <p class="form-status" role="status" aria-live="polite"></p>
-    <button class="contact-submit" type="submit">ส่งข้อความ <span aria-hidden="true">➜</span></button>
+    <button class="contact-submit" type="submit">ส่งทางอีเมล <span aria-hidden="true">➜</span></button>
   </form>
 </div>
 
@@ -46,8 +46,7 @@
   const tabs = document.querySelectorAll<HTMLButtonElement>(".contact-tab");
   const panels = document.querySelectorAll<HTMLElement>("[data-panel]");
   const status = document.querySelector<HTMLElement>(".form-status");
-  const successMessage = "ส่งข้อมูลเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด";
-  const errorMessage = "ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่อีกครั้ง";
+  const contactEmail = "sales@apf.co.th";
 
   const clearErrors = () => form?.querySelectorAll(".has-error").forEach((element) => element.classList.remove("has-error"));
   const setTab = (type: string) => {
@@ -62,19 +61,32 @@
   setTabFromHash();
   window.addEventListener("hashchange", setTabFromHash);
 
-  form?.addEventListener("submit", async (event) => {
+  form?.addEventListener("submit", (event) => {
     event.preventDefault(); clearErrors(); if (status) status.textContent = "";
     const fields = [...form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>("input:not(:disabled), textarea:not(:disabled)")];
     const invalid = fields.filter((field) => !field.checkValidity());
     invalid.forEach((field) => { const label = field.closest("label, fieldset"); label?.classList.add("has-error"); const hint = label?.querySelector("small"); if (hint) hint.textContent = field.validity.valueMissing ? "กรุณากรอกข้อมูลให้ครบถ้วน" : "กรุณากรอกข้อมูลให้ถูกต้อง"; });
     if (invalid.length) { invalid[0].focus(); return; }
-    const submit = form.querySelector<HTMLButtonElement>("[type=submit]"); if (submit) { submit.disabled = true; submit.textContent = "กำลังส่งข้อมูล..."; }
-    try {
-      const response = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(new FormData(form))) });
-      if (!response.ok) throw new Error("Submission failed");
-      const activeType = form.querySelector<HTMLInputElement>("[name=formType]")?.value || "inquiry";
-      form.reset(); setTab(activeType); if (status) { status.textContent = successMessage; status.className = "form-status is-success"; }
-    } catch { if (status) { status.textContent = errorMessage; status.className = "form-status is-error"; } }
-    finally { if (submit) { submit.disabled = false; submit.innerHTML = 'ส่งข้อความ <span aria-hidden="true">➜</span>'; } }
+    const data = new FormData(form);
+    const formType = data.get("formType") === "demo" ? "นัด Demo ระบบ" : "ติดต่อสอบถาม";
+    const subject = data.get("subject") || formType;
+    const body = [
+      `ประเภท: ${formType}`,
+      `ชื่อ: ${data.get("name") || ""}`,
+      `บริษัท: ${data.get("company") || ""}`,
+      `อีเมล: ${data.get("email") || ""}`,
+      `โทรศัพท์: ${data.get("phone") || ""}`,
+      data.get("date") ? `วันที่: ${data.get("date")}` : "",
+      data.get("time") ? `เวลา: ${data.get("time")}` : "",
+      data.get("appointmentType") ? `รูปแบบการนัดหมาย: ${data.get("appointmentType")}` : "",
+      "",
+      String(data.get("message") || ""),
+    ].filter(Boolean).join("\n");
+
+    if (status) {
+      status.textContent = `กำลังเปิดโปรแกรมอีเมล หากโปรแกรมไม่เปิด กรุณาส่งอีเมลไปที่ ${contactEmail}`;
+      status.className = "form-status is-success";
+    }
+    window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(String(subject))}&body=${encodeURIComponent(body)}`;
   });
 </script>

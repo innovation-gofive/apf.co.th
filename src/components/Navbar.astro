@@ -1,7 +1,9 @@
 ---
 import "../styles/Navbar.css";
 
-const currentPath = Astro.url.pathname.replace(/\/$/, "") || "/";
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+const withBase = (path: string) => `${basePath}${path}`;
+const currentPath = Astro.url.pathname.slice(basePath.length).replace(/\/$/, "") || "/";
 
 const menus = [
   { title: "หน้าหลัก", href: "/" },
@@ -23,8 +25,8 @@ const serviceSubmenu = [
 
     <div class="container navbar-container">
 
-        <a href="/" class="logo">
-            <img src="/images/logo.png" alt="APF Logo" />
+        <a href={withBase("/")} class="logo">
+            <img src={withBase("/images/logo.png")} alt="APF Logo" />
         </a>
 
         <button class="menu-toggle" aria-label="Menu">
@@ -41,19 +43,19 @@ const serviceSubmenu = [
                     menus.map((menu) => menu.href === "/services" ? (
                         <div class="menu-item menu-item--has-submenu">
                             <a
-                                href={menu.href}
+                                href={withBase(menu.href)}
                                 class:list={{ active: currentPath === menu.href }}
                                 aria-current={currentPath === menu.href ? "page" : undefined}
                             >
                                 {menu.title}
                             </a>
                             <div class="submenu">
-                                {serviceSubmenu.map((child) => <a href={child.href}>{child.title}</a>)}
+                                {serviceSubmenu.map((child) => <a href={withBase(child.href)}>{child.title}</a>)}
                             </div>
                         </div>
                     ) : (
                         <a
-                            href={menu.href}
+                            href={withBase(menu.href)}
                             class:list={{ active: currentPath === menu.href }}
                             aria-current={currentPath === menu.href ? "page" : undefined}
                         >
@@ -67,7 +69,7 @@ const serviceSubmenu = [
             <a href="tel:027845888" class="phone">
 
                 <img
-                    src="/images/phone-icon.png"
+                    src={withBase("/images/phone-icon.png")}
                     alt="Phone"
                 />
 
@@ -75,7 +77,7 @@ const serviceSubmenu = [
 
             </a>
 
-            <a href="/contact" class="btn btn-primary">
+            <a href={withBase("/contact")} class="btn btn-primary">
                 ติดต่อเรา
             </a>
 

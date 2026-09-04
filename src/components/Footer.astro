@@ -1,5 +1,7 @@
 ---
 import "../styles/Footer.css";
+
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 ---
 
 <footer class="footer">
@@ -11,7 +13,7 @@ import "../styles/Footer.css";
             <div class="footer-brand">
 
                 <img
-                    src="/images/Logo-white.svg"
+                    src={`${basePath}/images/Logo-white.svg`}
                     alt="APF"
                     class="footer-logo"
                 />
@@ -28,10 +30,10 @@ import "../styles/Footer.css";
 
                 <h4>บริการของเรา</h4>
 
-                <a href="/service-detail#b2b">B2B Fulfillment</a>
-                <a href="/service-detail#warehouse">Warehouse Management</a>
-                <a href="/service-detail#b2c">B2C Fulfillment</a>
-                <a href="/service-detail#transportation">Transportation Services</a>
+                <a href={`${basePath}/service-detail#b2b`}>B2B Fulfillment</a>
+                <a href={`${basePath}/service-detail#warehouse`}>Warehouse Management</a>
+                <a href={`${basePath}/service-detail#b2c`}>B2C Fulfillment</a>
+                <a href={`${basePath}/service-detail#transportation`}>Transportation Services</a>
 
             </div>
 
@@ -39,7 +41,7 @@ import "../styles/Footer.css";
 
                 <h4>บริษัท</h4>
 
-                <a href="/about">เกี่ยวกับเรา</a>
+                <a href={`${basePath}/about`}>เกี่ยวกับเรา</a>
                 <a href="#">ข่าวสาร</a>
                 <a href="#">ร่วมงานกับเรา</a>
 
@@ -52,7 +54,7 @@ import "../styles/Footer.css";
                 <a href="tel:027845888" class="footer-contact-item">
 
                     <img
-                        src="/images/phone-call.png"
+                        src={`${basePath}/images/phone-call.png`}
                         alt="Phone"
                     />
 
@@ -63,7 +65,7 @@ import "../styles/Footer.css";
                 <a href="mailto:sales@apf.co.th" class="footer-contact-item">
 
                     <img
-                        src="/images/mail.png"
+                        src={`${basePath}/images/mail.png`}
                         alt="Email"
                     />
 
@@ -74,7 +76,7 @@ import "../styles/Footer.css";
                 <div class="footer-contact-item">
 
                     <img
-                        src="/images/pin.png"
+                        src={`${basePath}/images/pin.png`}
                         alt="Location"
                     />
 

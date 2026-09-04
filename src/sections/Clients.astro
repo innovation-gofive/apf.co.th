@@ -2,6 +2,8 @@
 import "../styles/Clients.css";
 import "../styles/Home.css";
 
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 type ImageList = Array<string | null>;
 
 interface ClientsProps {
@@ -149,8 +151,8 @@ const logos = brandLogos.filter((logo): logo is string => Boolean(logo));
         <p class="cta-description">{cta.description}</p>
       </div>
       <div class="cta-buttons">
-        <a href="/contact#inquiry">{cta.primaryButton?.cta_primary_text}</a>
-        <a href="/contact#demo">{cta.secondaryButton?.cta_secondary_text}</a>
+        <a href={`${basePath}/contact#inquiry`}>{cta.primaryButton?.cta_primary_text}</a>
+        <a href={`${basePath}/contact#demo`}>{cta.secondaryButton?.cta_secondary_text}</a>
       </div>
     </div>
   </div>

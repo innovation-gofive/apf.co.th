@@ -2,6 +2,8 @@
 import "../styles/System.css";
 import "../styles/Home.css";
 
+const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+
 const {
   system,
   heroBackground,
@@ -68,10 +70,10 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
     <h1>{acf.system_hero_main_title}</h1>
     <p class="system-hero__description">{acf.system_hero_description}</p>
     <div class="system-hero__buttons">
-      <a class="system-button system-button--primary" href="/contact#demo">
+      <a class="system-button system-button--primary" href={`${basePath}/contact#demo`}>
         {acf.system_hero_primary_button_text} 
       </a>
-      <a class="system-button system-button--secondary" href="/contact#inquiry">
+      <a class="system-button system-button--secondary" href={`${basePath}/contact#inquiry`}>
         {acf.system_hero_secondary_button_text} 
       </a>
     </div>
@@ -164,6 +166,6 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
 <section class="cta-banner">
   <div class="container"><div class="cta-wrapper" style={`background-image: url('${cta.background}')`}>
     <div class="cta-content"><p class="cta-eyebrow">{cta.descriptionTitle}</p><h2 class="cta-title">{cta.title}</h2><p class="cta-description">{cta.description}</p></div>
-    <div class="cta-buttons"><a href="/contact#inquiry">{cta.primaryButton.cta_primary_text}</a><a href="/contact#demo">{cta.secondaryButton.cta_secondary_text}</a></div>
+    <div class="cta-buttons"><a href={`${basePath}/contact#inquiry`}>{cta.primaryButton.cta_primary_text}</a><a href={`${basePath}/contact#demo`}>{cta.secondaryButton.cta_secondary_text}</a></div>
   </div></div>
 </section>

@@ -1,4 +1,5 @@
-const API_URL = import.meta.env.PUBLIC_WORDPRESS_API;
+const API_URL =
+  import.meta.env.PUBLIC_WORDPRESS_API || "https://cms.apf.co.th/wp-json/wp/v2";
 const MEDIA_CACHE_TTL = 60_000;
 
 type WordPressMedia = {
