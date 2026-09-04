@@ -3,11 +3,10 @@
  * APF Contact Form REST endpoint.
  *
  * Add this snippet with the Code Snippets plugin in WordPress, set it to run
- * everywhere, then activate it. Replace the secret below with a long random
- * string and put the identical value in Astro's WP_CONTACT_SECRET environment.
+ * everywhere, then activate it. This endpoint is designed for a static site
+ * hosted on GitHub Pages. It has a honeypot and an IP-based rate limit.
  */
 
-define( 'APF_CONTACT_SECRET', 'replace-with-a-long-random-secret' );
 define( 'APF_CONTACT_RECIPIENT', 'yuwanida.c@gofive.co.th' );
 
 add_action( 'rest_api_init', function () {
@@ -23,11 +22,11 @@ function apf_contact_clean( $value ) {
 }
 
 function apf_handle_contact_form( WP_REST_Request $request ) {
-	if ( ! hash_equals( APF_CONTACT_SECRET, (string) $request->get_header( 'X-APF-Contact-Key' ) ) ) {
-		return new WP_REST_Response( array( 'message' => 'Unauthorized' ), 401 );
+	$data      = array_map( 'apf_contact_clean', (array) $request->get_body_params() );
+	if ( ! empty( $data['website'] ) ) {
+		return new WP_REST_Response( array( 'message' => 'Invalid form data' ), 400 );
 	}
 
-	$data      = array_map( 'apf_contact_clean', (array) $request->get_json_params() );
 	$form_type = $data['formType'] ?? '';
 	$required  = array(
 		'inquiry' => array( 'name', 'email', 'phone', 'subject', 'message' ),
@@ -41,6 +40,13 @@ function apf_handle_contact_form( WP_REST_Request $request ) {
 		if ( empty( $data[ $field ] ) ) return new WP_REST_Response( array( 'message' => 'Missing required field' ), 400 );
 	}
 	if ( ! is_email( $data['email'] ) ) return new WP_REST_Response( array( 'message' => 'Invalid email' ), 400 );
+
+	$ip_address = sanitize_text_field( wp_unslash( $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'] ?? '' ) );
+	$rate_key   = 'apf_contact_' . md5( $ip_address ?: 'unknown' );
+	if ( get_transient( $rate_key ) ) {
+		return new WP_REST_Response( array( 'message' => 'Please wait before sending another message' ), 429 );
+	}
+	set_transient( $rate_key, 1, 15 );
 
 	$type_label = $form_type === 'inquiry' ? 'ติดต่อสอบถาม' : 'นัด Demo ระบบ';
 	$subject    = sprintf( '[APF Website] %s - %s', $type_label, $data['name'] ?: $data['company'] );

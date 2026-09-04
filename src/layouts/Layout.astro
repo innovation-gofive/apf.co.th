@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-const { showChrome = true } = Astro.props;
+const { showChrome = true, hideChromeInitially = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -27,7 +27,7 @@ const { showChrome = true } = Astro.props;
 
 <body>
 
-    {showChrome && <Navbar />}
+    {showChrome && <div data-site-chrome hidden={hideChromeInitially}><Navbar /></div>}
 
     <main>
 
@@ -35,7 +35,7 @@ const { showChrome = true } = Astro.props;
 
     </main>
 
-    {showChrome && <Footer />}
+    {showChrome && <div data-site-chrome hidden={hideChromeInitially}><Footer /></div>}
 
 </body>
 

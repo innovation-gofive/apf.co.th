@@ -28,6 +28,8 @@ const { launchAt } = Astro.props;
 
 <script>
   const countdown = document.querySelector<HTMLElement>(".launch-countdown");
+  const home = document.querySelector<HTMLElement>("[data-launch-home]");
+  const siteChrome = document.querySelectorAll<HTMLElement>("[data-site-chrome]");
   const launchAt = Number(countdown?.dataset.launchAt);
   const values = {
     days: countdown?.querySelector<HTMLElement>("[data-days]"),
@@ -39,9 +41,15 @@ const { launchAt } = Astro.props;
   const updateCountdown = () => {
     const remaining = launchAt - Date.now();
     if (remaining <= 0) {
-      window.location.reload();
+      if (countdown) countdown.hidden = true;
+      if (home) home.hidden = false;
+      siteChrome.forEach((element) => element.hidden = false);
       return;
     }
+
+    if (countdown) countdown.hidden = false;
+    if (home) home.hidden = true;
+    siteChrome.forEach((element) => element.hidden = true);
 
     const totalSeconds = Math.floor(remaining / 1_000);
     const units = {

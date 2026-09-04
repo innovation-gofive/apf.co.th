@@ -11,6 +11,7 @@
 
   <form id="contact-form" novalidate>
     <input type="hidden" name="formType" value="inquiry" />
+    <div class="contact-honeypot" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off" /></label></div>
     <div id="inquiry-panel" role="tabpanel" aria-labelledby="inquiry-tab" data-panel="inquiry">
       <div class="form-grid">
         <label>ชื่อ-นามสกุล <b>*</b><input name="name" required autocomplete="name" placeholder="กรุณากรอกชื่อ-นามสกุล" /><small></small></label>
@@ -91,21 +92,27 @@
     if (submitButton) submitButton.disabled = true;
     if (status) status.textContent = "กำลังส่งข้อความ...";
     try {
-      const response = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(Object.fromEntries(data.entries())),
+      const payload = new URLSearchParams();
+      data.forEach((value, key) => {
+        if (typeof value === "string") payload.append(key, value);
       });
-      if (!response.ok) throw new Error("Contact form submission failed");
+      const response = await fetch("https://cms.apf.co.th/wp-json/apf/v1/contact", {
+        method: "POST",
+        body: payload,
+      });
+      if (!response.ok) {
+        if (response.status === 429) throw new Error("กรุณารอ 15 วินาทีก่อนส่งข้อความอีกครั้ง");
+        throw new Error("ไม่สามารถส่งข้อความได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง");
+      }
       form.reset();
       setTab("inquiry");
       if (status) {
         status.textContent = "ส่งข้อความเรียบร้อยแล้ว ทีมงานจะติดต่อกลับโดยเร็วที่สุด";
         status.className = "form-status is-success";
       }
-    } catch {
+    } catch (error) {
       if (status) {
-        status.textContent = "ไม่สามารถส่งข้อความได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง";
+        status.textContent = error instanceof Error ? error.message : "ไม่สามารถส่งข้อความได้ในขณะนี้ กรุณาลองใหม่อีกครั้ง";
         status.className = "form-status is-error";
       }
     } finally {

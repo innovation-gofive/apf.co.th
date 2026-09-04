@@ -11,7 +11,6 @@ import {
 
 // 9 September 2026, 00:00 in Bangkok (UTC+7).
 const launchAt = Date.UTC(2026, 8, 8, 17, 0, 0);
-const isLaunched = Date.now() >= launchAt;
 
 const home = await fetchAPI("/pages/9");
 const background = await getMedia(home.acf.background_image);
@@ -114,8 +113,9 @@ const cta = {
 
 ---
 
-<Layout showChrome={isLaunched}>
-{isLaunched ? (
+<Layout hideChromeInitially>
+<LaunchCountdown launchAt={launchAt} />
+<div data-launch-home hidden>
 <Home
     home={home}
     background={background.source_url}
@@ -134,5 +134,5 @@ const cta = {
     clients={clients}
     cta={cta}
 />
- ) : <LaunchCountdown launchAt={launchAt} />}
+</div>
 </Layout>
