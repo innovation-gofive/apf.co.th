@@ -2926,6 +2926,38 @@
   }
 }
 
+/* Every B2C feature card must contain its own copy at tablet widths. */
+@media (min-width: 769px) and (max-width: 1280px) {
+  #panel-b2c .feature-block-grid,
+  #panel-b2c .feature-block,
+  #panel-b2c .feature-block__copy,
+  #panel-b2c .feature-list,
+  #panel-b2c .feature-list li,
+  #panel-b2c .feature-list__content {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #panel-b2c .feature-block {
+    overflow: hidden;
+  }
+
+  #panel-b2c .feature-list li {
+    align-items: flex-start;
+  }
+
+  #panel-b2c .feature-list__content {
+    flex: 1 1 0;
+  }
+
+  #panel-b2c .feature-list__title,
+  #panel-b2c .feature-list__description {
+    display: block;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+}
+
 /* Landscape tablet: order-integration checklist uses the shared readable scale. */
 @media (min-width: 769px) and (max-width: 1280px) and (orientation: landscape) {
   #panel-b2c > .feature-block .feature-list li,
@@ -2953,10 +2985,126 @@
   #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list__title,
   #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list__description {
     font-size: 15px !important;
-    white-space: nowrap !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
   }
 
   #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list {
-    transform: translateX(-16px) !important;
+    min-width: 0;
+    transform: none !important;
+  }
+
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list li {
+    min-width: 0;
+  }
+
+  /* Order Integration is the direct feature block above the grids.  Constrain
+     its right-hand checklist to its grid column instead of letting its copy
+     retain a desktop-width line. */
+  #panel-b2c > .feature-block {
+    grid-template-columns: minmax(0, 58%) minmax(0, 42%) !important;
+    overflow: hidden;
+  }
+
+  #panel-b2c > .feature-block .feature-list,
+  #panel-b2c > .feature-block .feature-list li {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  #panel-b2c > .feature-block .feature-list__content {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  #panel-b2c > .feature-block .feature-list li {
+    align-items: flex-start;
+  }
+
+  #panel-b2c > .feature-block .feature-list__title,
+  #panel-b2c > .feature-block .feature-list__description {
+    display: block;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Keep every Tracking / Return label inside its own tablet card. */
+@media (min-width: 769px) and (max-width: 1280px) {
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-block {
+    min-width: 0 !important;
+    overflow: hidden;
+  }
+
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list,
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list li,
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list__content {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list__content {
+    flex: 1 1 0;
+  }
+
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list__title,
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-list__description {
+    display: block;
+    min-width: 0 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+}
+
+/* Transportation cards use a fluid type scale instead of clipping desktop
+   checklist copy inside the narrower tablet columns. */
+@media (min-width: 769px) and (max-width: 1280px) {
+  #panel-transportation .transportation-grid .feature-block,
+  #panel-transportation .transportation-grid .feature-list,
+  #panel-transportation .transportation-grid .feature-list li,
+  #panel-transportation .transportation-grid .feature-list__content {
+    min-width: 0 !important;
+    max-width: 100%;
+  }
+
+  #panel-transportation .transportation-grid .feature-list__content {
+    flex: 1 1 0;
+  }
+
+  #panel-transportation .transportation-grid .feature-list__title,
+  #panel-transportation .transportation-grid .feature-list__description {
+    display: block;
+    font-size: clamp(11px, 1.2vw, 13px) !important;
+    line-height: 1.4;
+    white-space: normal !important;
+    overflow-wrap: anywhere;
+  }
+
+  #panel-transportation .transportation-grid .feature-list img {
+    width: 20px !important;
+    height: 20px !important;
+    flex: 0 0 20px;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:first-child .feature-block__copy {
+    transform: none !important;
+  }
+
+  /* Real-time Tracking: a deliberate 10px separation between its visual
+     column and the text column, rather than an oversized image column. */
+  #panel-transportation .transportation-grid .feature-block:first-child {
+    grid-template-columns: 82px minmax(0, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:first-child .feature-block__visual {
+    width: 82px !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:first-child .feature-block__visual > img:first-child {
+    width: 70px !important;
+    height: 100px !important;
+    transform: none !important;
   }
 }

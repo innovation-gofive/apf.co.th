@@ -900,6 +900,29 @@
 
 }
 
+/* Use Case 04 has mixed portrait and landscape screenshots: bound them to one stage. */
+@media (min-width: 769px) and (max-width: 1280px) {
+  .use-case--4 .use-case__visual--gallery {
+    display: grid !important;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.35fr) minmax(0, .8fr);
+    align-items: center;
+    width: 100%;
+    height: clamp(180px, 22vw, 240px) !important;
+    min-height: 0 !important;
+    padding: 14px;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .use-case--4 .use-case__visual--gallery > img {
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0;
+    object-fit: contain;
+    object-position: center;
+  }
+}
+
 @media (min-width: 769px) and (max-width: 1100px) and (orientation: portrait) {
   .system-hero {
     min-height: 400px;
@@ -995,9 +1018,11 @@
   .use-case--2 .use-case__visual {
     display: grid;
     min-height: 0;
-    height: clamp(200px, 27vw, 270px);
+    height: auto;
+    aspect-ratio: 2.05 / 1;
     padding: 0 24px;
     place-items: center;
+    align-self: end;
   }
 
   .use-case--2 .use-case__visual > img {
@@ -1007,24 +1032,310 @@
     object-position: center;
   }
 
-  .use-case--4 .use-case__visual--gallery {
-    display: flex !important;
-    flex-wrap: wrap;
-    align-items: flex-start;
-    justify-content: center;
+  /* Keep the three screenshots on one bounded stage.  They have different
+     aspect ratios, so each image is contained rather than stretched or
+     allowed to create another row. */
+  .system-use-cases .use-case--4 .use-case__visual--gallery {
+    display: grid !important;
+    grid-template-columns: minmax(0, .8fr) minmax(0, 1.35fr) minmax(0, .8fr);
+    grid-template-rows: minmax(0, 1fr);
+    align-items: end;
     width: 100%;
-    height: auto !important;
+    height: clamp(180px, 22vw, 240px) !important;
     min-height: 0 !important;
-    padding: 0 20px 20px;
-    gap: 12px;
+    padding: 14px !important;
+    gap: 8px;
+    overflow: hidden;
   }
 
-  .use-case--4 .use-case__visual--gallery > img {
-    flex: 0 1 auto;
-    width: auto !important;
+  .system-use-cases .use-case--4 .use-case__visual--gallery > img {
+    display: block;
+    width: 100% !important;
     max-width: 100%;
-    height: clamp(180px, 24vw, 250px) !important;
+    height: 100% !important;
+    min-width: 0;
     object-fit: contain;
-    object-position: center top;
+    object-position: center bottom;
+  }
+
+  /* Tablet uses the same flat screenshot treatment as desktop. */
+  .system-use-cases .use-case__visual > img,
+  .system-use-cases .use-case__visual--gallery > img {
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: transparent !important;
+  }
+
+  .system-use-cases .use-case__visual {
+    align-self: end;
+  }
+
+  .system-use-cases .use-case__visual--gallery {
+    align-items: end;
+  }
+
+  .system-use-cases .use-case__visual--gallery > img {
+    align-self: end;
+    object-position: center bottom;
+  }
+
+  /* The final use case keeps its copy above one compact, centered image
+     group.  The screens retain their natural widths instead of being spread
+     across equal grid columns. */
+  .system-use-cases .use-case--4 {
+    grid-template-columns: minmax(0, 1fr) !important;
+    height: auto;
+    min-height: 0;
+  }
+
+  .system-use-cases .use-case--4 .use-case__copy {
+    order: 0 !important;
+    padding: 24px 32px 8px;
+  }
+
+  .system-use-cases .use-case--4 .use-case__visual {
+    order: 1;
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: 0 32px 24px;
+    align-self: auto;
+  }
+
+  .system-use-cases .use-case--4 .use-case__visual--gallery {
+    display: flex !important;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: end;
+    height: clamp(180px, 22vw, 235px) !important;
+    padding: 4px 0 !important;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .system-use-cases .use-case--4 .use-case__visual--gallery > img {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: none;
+    height: 100% !important;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  /* Use the same copy-then-media rhythm for the dashboard use case. */
+  .system-use-cases .use-case--2 {
+    grid-template-columns: minmax(0, 1fr) !important;
+    height: auto;
+    min-height: 0;
+  }
+
+  .system-use-cases .use-case--2 .use-case__copy {
+    order: 0 !important;
+    padding: 24px 32px 8px;
+  }
+
+  .system-use-cases .use-case--2 .use-case__visual {
+    order: 1;
+    width: min(calc(100% - 64px), 330px);
+    height: auto;
+    min-height: 0;
+    aspect-ratio: 2.05 / 1;
+    padding: 0;
+    margin: 0 auto 20px;
+    align-self: end;
+  }
+
+  /* All four use-case cards use one visual rhythm on tablet.  Media is
+     deliberately capped so a long screenshot cannot make only its card
+     taller than the other three. */
+  .system-use-cases .use-case {
+    height: clamp(360px, 36vw, 390px) !important;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .system-use-cases .use-case--2,
+  .system-use-cases .use-case--4 {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+
+  .system-use-cases .use-case--4 .use-case__visual--gallery {
+    height: clamp(130px, 16vw, 170px) !important;
+  }
+
+  /* A single card pattern for all four tablet use cases: copy first,
+     compact media group second. */
+  .system-use-cases .use-case,
+  .system-use-cases .use-case:nth-child(even),
+  .system-use-cases .use-case--3 {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-rows: auto minmax(0, 1fr);
+    height: clamp(360px, 36vw, 390px) !important;
+  }
+
+  .system-use-cases .use-case__copy,
+  .system-use-cases .use-case:nth-child(even) .use-case__copy {
+    order: 0 !important;
+    padding: 24px 32px 8px;
+  }
+
+  .system-use-cases .use-case__visual,
+  .system-use-cases .use-case--1 .use-case__visual,
+  .system-use-cases .use-case--2 .use-case__visual,
+  .system-use-cases .use-case--4 .use-case__visual {
+    order: 1;
+    width: min(calc(100% - 64px), 540px);
+    min-height: 0;
+    /* Align media with the heading text, after the numbered badge. */
+    margin: 0 0 20px 78px;
+    padding: 0;
+    align-self: end;
+  }
+
+  .system-use-cases .use-case--1 .use-case__visual,
+  .system-use-cases .use-case--2 .use-case__visual {
+    width: min(calc(100% - 64px), 400px);
+    height: 170px;
+    aspect-ratio: auto;
+  }
+
+  .system-use-cases .use-case--3 .use-case__copy {
+    position: static;
+    padding-bottom: 8px;
+  }
+
+  .system-use-cases .use-case--3 .use-case__timeline {
+    position: static;
+    width: min(100%, 460px);
+    margin: 8px auto 0;
+  }
+
+  .system-use-cases .use-case--3 .use-case__timeline img {
+    width: 100%;
+    height: auto;
+  }
+
+  .system-use-cases .use-case--3 .use-case__visual--gallery,
+  .system-use-cases .use-case--4 .use-case__visual--gallery {
+    display: flex !important;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: end;
+    width: 100%;
+    height: clamp(145px, 18vw, 170px) !important;
+    min-height: 0;
+    /* These galleries are visual containers themselves, so apply the same
+       heading-text inset explicitly (the shared visual rule has no wrapper). */
+    margin: 0 0 20px 78px;
+    padding: 0 !important;
+    gap: 8px;
+    overflow: hidden;
+  }
+
+  .system-use-cases .use-case--3 .use-case__visual--gallery > img,
+  .system-use-cases .use-case--4 .use-case__visual--gallery > img {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: none;
+    height: 100% !important;
+    object-fit: contain;
+    object-position: center bottom;
+  }
+
+  /* Fluid type scale for every tablet width: prevents desktop copy from
+     colliding with the hero artwork while retaining readable Thai text. */
+  .system-hero {
+    min-height: clamp(390px, 44vw, 480px);
+    height: clamp(390px, 44vw, 480px);
+  }
+
+  .system-hero h1 {
+    max-width: min(46vw, 430px);
+    font-size: clamp(30px, 3.6vw, 40px);
+    line-height: 1.24;
+  }
+
+  .system-hero__eyebrow {
+    font-size: clamp(15px, 1.7vw, 18px);
+  }
+
+  .system-hero__description {
+    max-width: min(42vw, 420px);
+    margin: clamp(18px, 2.3vw, 24px) 0 clamp(24px, 3vw, 32px);
+    font-size: clamp(13px, 1.35vw, 15px);
+    line-height: 1.65;
+  }
+
+  .system-button {
+    min-width: 0;
+    padding: 10px 16px;
+    font-size: clamp(13px, 1.35vw, 15px);
+  }
+
+  .system-section__heading h2 {
+    font-size: clamp(21px, 2.2vw, 24px);
+  }
+
+  .system-eyebrow {
+    font-size: clamp(14px, 1.5vw, 17px);
+  }
+
+  .system-section__heading > p:last-child,
+  .use-case__copy > p,
+  .platform-card__description {
+    font-size: clamp(13px, 1.3vw, 15px);
+  }
+
+  .use-case h3 {
+    font-size: clamp(15px, 1.55vw, 17px);
+  }
+
+  .platform-card header > div {
+    min-width: 0;
+  }
+
+  .platform-card header h3,
+  .platform-card header p {
+    overflow: hidden;
+    text-overflow: clip;
+    white-space: nowrap;
+  }
+
+  .platform-card header h3 {
+    font-size: clamp(10px, 1.05vw, 13px);
+    letter-spacing: -0.2px;
+  }
+
+  .platform-card header p {
+    font-size: clamp(11px, 1.15vw, 13px);
+  }
+}
+
+/* Final tablet safeguards for the shared use-case card pattern. */
+@media (min-width: 769px) and (max-width: 1280px) {
+  .system-use-cases .use-case--2 .use-case__features,
+  .system-use-cases .use-case--4 .use-case__features {
+    flex-wrap: nowrap;
+    gap: 18px;
+  }
+
+  .system-use-cases .use-case--2 .use-case__features span,
+  .system-use-cases .use-case--4 .use-case__features span,
+  .system-use-cases .use-case--2 .use-case__features em,
+  .system-use-cases .use-case--4 .use-case__features em {
+    white-space: nowrap;
+    font-size: 13px;
+  }
+
+  /* The timeline belongs to the copy block; keep the image pair clear of it. */
+  .system-use-cases .use-case--3 .use-case__timeline {
+    width: min(100%, 400px);
+    margin: 8px 0 0 46px;
+  }
+
+  .system-use-cases .use-case--3 .use-case__visual--gallery {
+    height: 140px !important;
+    flex-shrink: 0;
+    margin-top: 8px;
   }
 }
