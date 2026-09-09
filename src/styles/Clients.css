@@ -74,9 +74,18 @@
   content: "";
 }
 .clients-trust__item img { display: block; width: 52px; height: 52px; margin: 0 0 15px; object-fit: contain; }
-.clients-trust__item h3 { width: 100%; margin: 0; font-size: 16px; color: #001265; line-height: 1.3; text-transform: uppercase; }
+.clients-trust__item h3 {
+  width: 100%;
+  margin: 0;
+  color: #001265;
+  font-size: clamp(12px, 1.2vw, 16px);
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+  text-align: center;
+  text-transform: uppercase;
+  white-space: normal;
+}
 .clients-trust__item p { width: 100%; margin-top: 8px; }
-.clients-trust__item:last-child h3 { font-size: 16px; white-space: nowrap; }
 
 @media (max-width: 992px) {
   .clients-hero__statistics { gap: 28px; }

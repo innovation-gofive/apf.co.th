@@ -61,6 +61,33 @@ Layout
     }
 }
 
+/* Tablets share one fluid side gutter: neither desktop-wide nor edge-to-edge. */
+@media (min-width: 769px) and (max-width: 1280px){
+    :root{
+        --tablet-gutter: clamp(32px, 6vw, 72px);
+    }
+
+    .container{
+        padding-inline:var(--tablet-gutter);
+    }
+}
+
+/* Match every inner-page hero to the Home hero frame on tablet portrait. */
+@media (min-width: 769px) and (max-width: 992px){
+    body main :is(
+        .about-hero,
+        .contact-hero,
+        .system-hero,
+        .service-detail-hero,
+        .services-hero,
+        .clients-hero
+    ){
+        height:425px !important;
+        min-height:425px !important;
+        padding:0 !important;
+    }
+}
+
 @media (max-width: 576px){
     .container{
         padding:0 20px;
@@ -68,6 +95,70 @@ Layout
 
     .section{
         padding:56px 0;
+    }
+}
+
+/* Shared mobile type scale. The launch countdown keeps its bespoke scale. */
+@media (max-width: 768px){
+    body h1:not(.launch-countdown h1){
+        font-size:24px !important;
+    }
+
+    body h2:not(.launch-countdown h2){
+        font-size:18px !important;
+    }
+
+    body h3:not(.launch-countdown h3){
+        font-size:16px !important;
+    }
+
+    body p:not(.launch-countdown p){
+        font-size:15px !important;
+    }
+
+    body main section p:not(.launch-countdown p),
+    body :is(.section, p.section) p:not(.launch-countdown p),
+    body p.section:not(.launch-countdown p){
+        font-size:16px !important;
+    }
+
+    /* Hero copy follows the 32 / 24 / 18 mobile hierarchy. */
+    body main :is(
+        .about-hero__eyebrow,
+        .contact-hero__english,
+        .system-hero__eyebrow,
+        .service-detail-hero__content > p
+    ){
+        font-size:32px !important;
+    }
+
+    body main :is(
+        .about-hero,
+        .contact-hero,
+        .system-hero,
+        .service-detail-hero,
+        .services-hero,
+        .clients-hero,
+        .hero
+    ) h1{
+        font-size:24px !important;
+    }
+
+    body main :is(
+        .about-hero__description,
+        .contact-hero__description,
+        .system-hero__description,
+        .service-detail-hero__content > div,
+        .services-hero__description,
+        .clients-hero__content > p,
+        .hero-text > p
+    ){
+        font-size:18px !important;
+    }
+
+    /* Compact the descriptions in the four About-page statistic cards. */
+    body main section .about-statistic p{
+        font-size:13px !important;
     }
 }
 

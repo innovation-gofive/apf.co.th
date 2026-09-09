@@ -1,0 +1,434 @@
+/*
+ * Shared tablet-portrait baseline
+ *
+ * This file is deliberately imported after page styles.  It keeps the visual
+ * hierarchy consistent across pages and prevents fixed card heights or local
+ * positioning tweaks from creating empty areas and overlapping copy.
+ */
+@media (min-width: 769px) and (max-width: 1100px) and (orientation: portrait) {
+  :root {
+  --tp-hero-eyebrow: 44px;
+  --tp-hero-title: 28px;
+  --tp-hero-description: 20px;
+    --tp-section-title: 24px;
+    --tp-card-eyebrow: 16px;
+    --tp-card-title: 16px;
+    --tp-card-copy: 13px;
+    --tp-copy: 15px;
+  }
+
+  /* Hero hierarchy — matching the About-page pattern. */
+  body main :is(.about-hero__eyebrow, .contact-hero__english,
+    .system-hero__eyebrow, .service-detail-hero__content > p) {
+    font-size: var(--tp-hero-eyebrow) !important;
+  }
+
+  body main :is(.about-hero, .contact-hero, .system-hero,
+    .service-detail-hero, .services-hero, .clients-hero) h1 {
+    font-size: var(--tp-hero-title) !important;
+  }
+
+  body main :is(.about-hero__description, .contact-hero__description,
+    .system-hero__description, .service-detail-hero__content > div,
+    .services-hero__description, .clients-hero__content > p) {
+    font-size: var(--tp-hero-description) !important;
+  }
+
+  /* Shared type scale for content in panels and cards. */
+  body main :is(.section-eyebrow, .services-eyebrow, .eyebrow,
+    .about-platform-card .eyebrow, .technology-eyebrow) {
+    font-size: var(--tp-card-eyebrow) !important;
+    line-height: 1.3;
+  }
+
+  body main :is(.about-platform-card h3, .about-value h3,
+    .capability h3, .service-card-detail h3, .feature-block h3,
+    .process-block h3, .contact-benefit h3) {
+    font-size: var(--tp-card-title) !important;
+    line-height: 1.35;
+  }
+
+  body main :is(.about-platform-card p, .about-value p, .capability p,
+    .service-card-detail > p, .feature-block__description,
+    .feature-list li, .feature-list__title, .feature-list__description,
+    .process-block__description, .process-block__steps p) {
+    font-size: var(--tp-card-copy) !important;
+    line-height: 1.4;
+    white-space: normal;
+  }
+
+  /* Reusable section-intro hierarchy. */
+  body main section > .container > header h2,
+  body main .service-intro h2 {
+    font-size: 28px !important;
+    line-height: 1.35;
+  }
+
+  body main section > .container > header > p:not(.section-eyebrow):not(.eyebrow),
+  body main .service-intro > p {
+    font-size: 16px !important;
+    line-height: 1.55;
+    white-space: normal;
+  }
+
+  body main :is(.section-divider, .section-divider span) {
+    font-size: 28px !important;
+  }
+
+  /* Main descriptive copy inside service cards. */
+  body main :is(.service-card-detail > p, .feature-block__description) {
+    font-size: 15px !important;
+    line-height: 1.55;
+  }
+
+  /* Let grid rows take the height of their content; no oversized blank cards. */
+  body main :is(.about-platform-card, .capability, .service-card-detail,
+    .feature-block, .process-block) {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  body main :is(.feature-block-grid, .b2c-grid, .about-platform__grid,
+    .capabilities__grid) {
+    align-items: stretch;
+    grid-auto-rows: auto;
+  }
+
+  /* Keep the rhythm between sections compact without touching hero spacing. */
+  body main :is(.about-section, .clients-section, .contact-main,
+    .contact-location, .services-section, .system-section, .service-panel,
+    .operating-section, .why-section, .technology, .our-platform,
+    .smart-platform, .warehouse-location, .our-clients) {
+    padding-top: 44px !important;
+  }
+
+  /* Service-detail cards were individually positioned during earlier tuning.
+     Restore a stable flow layout so text cannot overlap headings. */
+  #panel-b2c .feature-block__copy,
+  #panel-b2c .feature-block__visual,
+  #panel-b2c .process-block > * {
+    transform: none !important;
+  }
+
+  #panel-b2c :is(.feature-block, .process-block) {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
+  #panel-b2c > .b2c-grid,
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+  }
+
+  #panel-b2c .b2c-grid .feature-block,
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-block {
+    padding: 20px;
+  }
+
+  /* Start the first-row card content from a consistent, compact top edge. */
+  #panel-b2c .b2c-grid .feature-block__copy {
+    align-self: start;
+    padding-top: 0;
+  }
+
+  #panel-b2c .b2c-grid .process-block {
+    justify-content: flex-start;
+    padding-top: 20px;
+  }
+
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-block__copy {
+    align-self: start;
+    padding-top: 0;
+  }
+
+  #panel-b2c .feature-list {
+    margin-top: 12px !important;
+    gap: 8px;
+  }
+
+  #panel-b2b .benefits-panel article > p {
+    transform: translateY(8px);
+  }
+
+  body main #panel-warehouse > .feature-block .eyebrow,
+  body main #panel-warehouse .feature-block-grid .feature-block--compact .eyebrow,
+  body main #panel-warehouse .process-block .eyebrow {
+    font-size: 16px !important;
+  }
+
+  /* Normal paragraph copy uses one shared size across every page. */
+  body main p {
+    font-size: 15px !important;
+    line-height: 1.55;
+  }
+
+  #panel-b2b p,
+  #panel-warehouse p,
+  #panel-b2c p,
+  #panel-transportation p {
+    font-size: 15px !important;
+  }
+
+  /* Hero copy intentionally remains in the larger hero scale. */
+  body main :is(.about-hero__eyebrow, .contact-hero__english,
+    .system-hero__eyebrow, .service-detail-hero__content > p) {
+    font-size: var(--tp-hero-eyebrow) !important;
+  }
+
+  body main :is(.about-hero__description, .contact-hero__description,
+    .system-hero__description, .service-detail-hero__content > div,
+    .services-hero__description, .clients-hero__content > p) {
+    font-size: var(--tp-hero-description) !important;
+  }
+
+  /* System platform-card labels stay compact when four cards share one row. */
+  body main .system-platform .platform-card header :is(h3, p) {
+    font-size: 13px !important;
+    font-weight: 500 !important;
+  }
+
+  body main .system-platform .platform-card:last-child header h3 {
+    font-size: 11px !important;
+    white-space: nowrap;
+  }
+
+  body main .system-platform .platform-card__description {
+    font-size: 13px !important;
+    white-space: normal !important;
+  }
+}
+
+/* Keep the return-management checklist aligned as a single-line list. */
+@media (min-width: 769px) and (max-width: 900px) and (orientation: portrait) {
+  .service-tabs__button {
+    font-size: 15px !important;
+    font-weight: 400 !important;
+  }
+
+  /* Transportation management mirrors its desktop image-left composition. */
+  #panel-transportation > .feature-block {
+    display: grid !important;
+    grid-template-columns: minmax(0, 46%) minmax(0, 54%) !important;
+    align-items: center !important;
+    min-height: 330px !important;
+    padding: 28px 32px !important;
+    gap: 16px !important;
+  }
+
+  #panel-transportation > .feature-block .feature-block__visual {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: translateX(30px);
+  }
+
+  #panel-transportation > .feature-block .feature-block__visual > img {
+    position: static !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: 260px !important;
+    object-fit: contain;
+    transform: none !important;
+  }
+
+  #panel-transportation > .feature-block .feature-block__copy {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    transform: translateX(54px);
+  }
+
+  /* Delivery steps stay on one compact, readable row. */
+  #panel-transportation .process-block {
+    min-height: 0 !important;
+    padding: 24px 28px !important;
+  }
+
+  #panel-transportation .process-block__steps {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 4px !important;
+    margin-top: 20px !important;
+  }
+
+  #panel-transportation .process-block__steps article {
+    min-width: 0;
+    padding: 0 4px !important;
+  }
+
+  #panel-transportation .process-icon {
+    width: 72px !important;
+    height: 72px !important;
+  }
+
+  #panel-transportation .process-icon img {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  #panel-transportation .step-number {
+    top: -4px !important;
+    left: calc(50% - 50px) !important;
+    width: 24px !important;
+    height: 24px !important;
+    font-size: 12px !important;
+  }
+
+  #panel-transportation .process-block__steps article:not(:last-child)::after {
+    content: "\2192" !important;
+    top: 25px !important;
+    right: -8px !important;
+    z-index: 2;
+    color: #8099e8 !important;
+    font-family: Arial, sans-serif;
+    font-size: 26px !important;
+    font-weight: 700 !important;
+  }
+
+  #panel-transportation .process-block__steps article:nth-child(2)::after {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    content: "\2192" !important;
+  }
+
+  #panel-transportation .process-block h4 {
+    margin-top: 8px !important;
+    font-size: 13px !important;
+    white-space: nowrap;
+  }
+
+  /* Tracking and COD/POD form a balanced two-card row. */
+  #panel-transportation .transportation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 16px !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block {
+    display: grid !important;
+    grid-template-columns: 86px minmax(0, 1fr) !important;
+    align-items: center !important;
+    min-height: 180px !important;
+    padding: 14px 18px !important;
+    gap: 12px !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block__visual {
+    position: relative !important;
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    width: 86px;
+    height: 104px;
+    display: block !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block__visual > img:first-child {
+    position: absolute !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    width: 72px !important;
+    height: 96px !important;
+    object-fit: contain;
+    transform: none !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block__secondary-image {
+    position: absolute !important;
+    left: 62px !important;
+    bottom: 0 !important;
+    width: 70px !important;
+    height: 112px !important;
+    object-fit: contain;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:first-child .feature-block__visual > img:first-child {
+    width: 72px !important;
+    height: 104px !important;
+    transform: translateY(8px) !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:last-child .feature-block__visual > img:first-child {
+    left: -8px !important;
+    width: 100px !important;
+    height: 108px !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:last-child {
+    grid-template-columns: minmax(0, 1fr) !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:last-child .feature-block__visual {
+    display: none !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:last-child .feature-block__copy {
+    grid-column: 1 !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-block:last-child h3 {
+    font-size: 15px !important;
+    white-space: nowrap;
+  }
+
+  #panel-transportation .transportation-grid .feature-block__copy {
+    display: block !important;
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+    min-width: 0;
+  }
+
+  #panel-transportation .transportation-grid .eyebrow,
+  #panel-transportation .transportation-grid h3 {
+    position: static !important;
+    margin: 0 !important;
+    transform: none !important;
+    text-align: left;
+  }
+
+  #panel-transportation .transportation-grid .eyebrow {
+    margin-bottom: 5px !important;
+    font-size: 14px !important;
+  }
+
+  #panel-transportation .transportation-grid h3 {
+    margin-bottom: 12px !important;
+    font-size: 16px !important;
+    line-height: 1.35;
+  }
+
+  #panel-transportation .transportation-grid .feature-list,
+  #panel-transportation .transportation-grid .feature-block:first-child .feature-list,
+  #panel-transportation .transportation-grid .feature-block:last-child .feature-list {
+    margin: 0 !important;
+    transform: none !important;
+    gap: 9px !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-list img {
+    width: 18px !important;
+    height: 18px !important;
+  }
+
+  #panel-transportation .transportation-grid .feature-list li,
+  #panel-transportation .transportation-grid .feature-list__title,
+  #panel-transportation .transportation-grid .feature-list__description {
+    font-size: 12px !important;
+    line-height: 1.35 !important;
+    white-space: nowrap !important;
+  }
+
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-block:last-child .feature-list__content,
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-block:last-child .feature-list__title,
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-block:last-child .feature-list__description {
+    min-width: max-content !important;
+    white-space: nowrap !important;
+  }
+
+  #panel-b2c > .feature-block-grid:not(.b2c-grid) .feature-block:last-child .feature-list__title br {
+    display: none !important;
+  }
+}

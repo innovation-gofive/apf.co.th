@@ -657,3 +657,374 @@
     font-size: 12px;
   }
 }
+
+/* Tablet layout: keep every System section readable without desktop-sized gaps. */
+@media (min-width: 769px) and (max-width: 1280px) {
+  .system-hero .container.system-hero__content {
+    width: 100%;
+    padding-inline: var(--tablet-gutter) !important;
+  }
+
+  .system-section {
+    padding: 40px 0;
+  }
+
+  .system-section__heading {
+    margin-bottom: 22px;
+  }
+
+  .system-section__heading > p:last-child {
+    max-width: 780px;
+  }
+
+  .platform-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .platform-card {
+    height: auto;
+    min-height: 305px;
+    --platform-content-inset: 12px;
+  }
+
+  .platform-card::after {
+    top: 60px;
+    height: 130px;
+  }
+
+  .platform-card header {
+    min-height: 60px;
+    padding: 8px 12px;
+    gap: 8px;
+  }
+
+  .platform-card header img {
+    width: 38px;
+    height: 38px;
+  }
+
+  .platform-card h3,
+  .platform-card header p {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .platform-card__image {
+    height: 130px;
+    object-fit: cover;
+  }
+
+  .platform-card__description {
+    flex: 1 0 auto;
+    min-height: 115px;
+    height: auto;
+    padding: 10px 12px;
+    font-size: 14px;
+    line-height: 1.5;
+  }
+
+  .use-case-list {
+    gap: 18px;
+    max-width: none;
+  }
+
+  .use-case,
+  .use-case:nth-child(even),
+  .use-case--3 {
+    grid-template-columns: minmax(0, 45%) minmax(0, 55%);
+    min-height: 270px;
+    height: auto;
+  }
+
+  .use-case__copy,
+  .use-case:nth-child(even) .use-case__copy,
+  .use-case--2 .use-case__copy,
+  .use-case--4 .use-case__copy {
+    order: 0;
+    padding: 28px;
+  }
+
+  .use-case:nth-child(even) .use-case__copy {
+    order: 2;
+  }
+
+  .use-case__copy > p {
+    margin: 12px 0 16px 46px;
+    white-space: normal;
+  }
+
+  .use-case__visual,
+  .use-case--1 .use-case__visual,
+  .use-case--2 .use-case__visual,
+  .use-case--4 .use-case__visual {
+    width: auto;
+    height: auto;
+    min-width: 0;
+    padding: 14px;
+    margin: 0;
+    align-self: stretch;
+    overflow: hidden;
+  }
+
+  .use-case__visual > img,
+  .use-case--1 .use-case__visual > img,
+  .use-case--2 .use-case__visual > img {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .use-case--3 .use-case__copy {
+    position: static;
+    padding-bottom: 28px;
+  }
+
+  .use-case__timeline {
+    position: static;
+    width: 100%;
+    margin: 16px 0 0;
+  }
+
+  .use-case__timeline img {
+    width: 100%;
+    height: auto;
+    max-width: 460px;
+  }
+
+  .use-case__visual--gallery,
+  .use-case--3 .use-case__visual--gallery,
+  .use-case--4 .use-case__visual--gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    height: auto;
+    min-height: 210px;
+    padding: 14px;
+  }
+
+  .use-case--4 .use-case__visual--gallery > img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .integration-logos {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .integration-logos img {
+    height: 62px;
+  }
+
+  .cta-wrapper {
+    padding: 30px;
+  }
+}
+
+/* Wide tablets: separate copy and mixed-ratio visuals so they never overlap. */
+@media (min-width: 1101px) and (max-width: 1440px) and (orientation: landscape) {
+  .use-case--2 {
+    grid-template-columns: minmax(0, 46%) minmax(0, 54%) !important;
+    min-height: 270px;
+    height: auto;
+  }
+
+  .use-case--2 .use-case__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: auto;
+    height: auto;
+    min-height: 0;
+    padding: 24px;
+    overflow: hidden;
+  }
+
+  .use-case--2 .use-case__visual > img {
+    width: min(100%, 420px) !important;
+    height: auto !important;
+    object-fit: contain;
+  }
+
+  .use-case--2 .use-case__copy {
+    padding: 30px 34px !important;
+  }
+
+  .use-case--3,
+  .use-case--4 {
+    grid-template-columns: minmax(0, 48%) minmax(0, 52%) !important;
+    min-height: 300px;
+    height: auto;
+  }
+
+  .use-case--3 .use-case__copy,
+  .use-case--4 .use-case__copy {
+    padding: 30px 34px !important;
+  }
+
+  .use-case--3 .use-case__timeline {
+    position: static;
+    width: min(100%, 380px);
+    margin: 18px 0 0;
+  }
+
+  .use-case--3 .use-case__timeline img {
+    width: 100%;
+    height: auto;
+  }
+
+  .use-case--3 .use-case__visual--gallery {
+    display: grid;
+    grid-template-columns: minmax(150px, .8fr) minmax(0, 1.2fr);
+    min-height: 0;
+    height: 260px;
+    padding: 18px;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .use-case--3 .use-case__visual--gallery > img:first-child {
+    width: auto;
+    max-width: 100%;
+    height: 210px;
+    justify-self: center;
+    object-fit: contain;
+  }
+
+  .use-case--3 .use-case__visual--gallery > img:last-child {
+    width: 100%;
+    height: 170px;
+    object-fit: contain;
+  }
+
+}
+
+@media (min-width: 769px) and (max-width: 1100px) and (orientation: portrait) {
+  .system-hero {
+    min-height: 400px;
+    height: auto;
+    background-position: center;
+  }
+
+  .system-hero__content {
+    padding: 64px 0;
+  }
+
+  .system-section {
+    padding: 34px 0;
+  }
+
+  .use-case,
+  .use-case:nth-child(even),
+  .use-case--3 {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .use-case:nth-child(even) .use-case__copy {
+    order: 0;
+  }
+
+  .use-case__copy,
+  .use-case:nth-child(even) .use-case__copy,
+  .use-case--2 .use-case__copy,
+  .use-case--4 .use-case__copy {
+    padding: 24px;
+  }
+
+  .use-case__copy > p {
+    margin-left: 46px;
+  }
+
+  .use-case__visual,
+  .use-case--1 .use-case__visual,
+  .use-case--2 .use-case__visual,
+  .use-case--4 .use-case__visual {
+    min-height: 220px;
+    padding: 16px 24px 0;
+  }
+
+  .use-case--1 .use-case__visual {
+    padding-bottom: 0;
+  }
+
+  .use-case__visual--gallery,
+  .use-case--3 .use-case__visual--gallery,
+  .use-case--4 .use-case__visual--gallery {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    min-height: 220px;
+  }
+
+  /* Center only Use Case 03's image pair; preserve the copy alignment. */
+  .use-case--3 .use-case__visual--gallery {
+    grid-template-columns: 194px max-content;
+    justify-content: center;
+    width: min(100% - 40px, 560px);
+    min-height: 0;
+    height: 170px;
+    margin: 0 auto;
+    padding: 0;
+    gap: 10px;
+  }
+
+  .use-case--3 .use-case__visual--gallery > img:first-child {
+    width: 194px;
+    height: 170px !important;
+  }
+
+  .use-case--3 .use-case__visual--gallery > img:last-child {
+    width: auto !important;
+    max-width: 100%;
+    height: 170px !important;
+    aspect-ratio: auto;
+    align-self: center;
+    justify-self: center;
+    object-fit: contain;
+  }
+
+  .integration-logos {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Mixed-orientation screenshots keep their own aspect ratio on every tablet. */
+@media (min-width: 769px) and (max-width: 1280px) {
+  /* Dashboard screenshots scale as landscape media instead of filling a fixed box. */
+  .use-case--2 .use-case__visual {
+    display: grid;
+    min-height: 0;
+    height: clamp(200px, 27vw, 270px);
+    padding: 0 24px;
+    place-items: center;
+  }
+
+  .use-case--2 .use-case__visual > img {
+    width: 100%;
+    height: 100% !important;
+    object-fit: contain;
+    object-position: center;
+  }
+
+  .use-case--4 .use-case__visual--gallery {
+    display: flex !important;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    height: auto !important;
+    min-height: 0 !important;
+    padding: 0 20px 20px;
+    gap: 12px;
+  }
+
+  .use-case--4 .use-case__visual--gallery > img {
+    flex: 0 1 auto;
+    width: auto !important;
+    max-width: 100%;
+    height: clamp(180px, 24vw, 250px) !important;
+    object-fit: contain;
+    object-position: center top;
+  }
+}

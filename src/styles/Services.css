@@ -156,6 +156,11 @@
   .capability:nth-child(3) { border-right: 0; }
 }
 
+@media (min-width: 769px) and (max-width: 992px) {
+  .services-hero h1 { font-size: 32px; }
+  .services-hero__description { font-size: 20px; }
+}
+
 @media (max-width: 768px) {
   .services-hero {
     position: relative;
@@ -198,12 +203,13 @@
   .service-detail__image { height: 200px; }
   .capabilities__grid { grid-template-columns: repeat(2, 1fr); }
   .capability { border: 0; }
-  .capability p {
-    display: flex;
+  body main section.capabilities .capability p {
+    display: block;
+    width: 100%;
+    max-width: none;
     min-height: 40px;
-    align-items: flex-start;
-    justify-content: center;
-    font-size: 14px;
+    margin-inline: auto;
+    font-size: 13px !important;
     line-height: 1.4;
     text-align: center;
     white-space: normal;

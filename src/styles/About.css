@@ -152,10 +152,24 @@
   .about-platform__grid, .about-facilities__grid { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* Tablet portrait: keep all five values in a compact single row. */
+@media (min-width: 769px) and (max-width: 992px) {
+  .about-values__grid { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0; }
+  .about-value { min-height: 165px; padding: 0 8px; border-right: 2px solid #e6e6e6; }
+  .about-value:nth-child(3) { border-right: 2px solid #e6e6e6; }
+  .about-value:last-child { border-right: 0; }
+  .about-value img { width: 58px; height: 58px; margin-bottom: 10px; }
+  .about-value h3 { font-size: 12px; }
+  .about-value p { font-size: 12px; line-height: 1.4; white-space: normal; }
+
+  .about-platform-card { gap: 20px; }
+  .about-platform-card img { margin-left: 0; }
+}
+
 @media (max-width: 768px) {
   .about-hero { height: 350px; margin-top: 72px; }
-  .about-hero__eyebrow { font-size: 32px; }
-  .about-hero h1 { font-size: 24px; }
+  body main section.about-hero .about-hero__eyebrow { font-size: 32px !important; }
+  body main section.about-hero h1 { font-size: 24px !important; }
   .about-who h2 {
     font-size: 18px;
     line-height: 1.25;
@@ -167,11 +181,18 @@
     line-height: 1.5;
     white-space: normal;
   }
-  .about-hero__description { font-size: 18px; }
+  body main section.about-hero .about-hero__description { font-size: 16px !important; }
   .about-section { padding: 30px 0; }
   .about-who__panel, .about-platform__panel { padding: 25px 20px; }
-  .about-platform-card { gap: 25px; }
-  .about-platform-card p { font-size: 15px; }
+  .about-platform-card {
+    min-height: 120px;
+    gap: 16px;
+    padding: 20px 18px;
+  }
+  body main section.about-platform .about-platform-card p {
+    font-size: 13px !important;
+    white-space: normal;
+  }
   .about-statistics { grid-template-columns: repeat(2, 1fr); gap: 10px; }
   .about-statistic {
     flex-direction: column;
@@ -183,10 +204,11 @@
     text-align: center;
   }
   .about-statistic img { width: 48px; height: 48px; }
-  .about-statistic p { font-size: 13px; line-height: 1.45; }
+  .about-who .about-statistic > div > h3 { font-size: 15px !important; }
+  .about-who .about-statistic > div > p { font-size: 13px !important; line-height: 1.45; }
   .about-statistic:first-child p { white-space: normal; }
   .about-platform__grid, .about-facilities__grid { grid-template-columns: 1fr; }
-  .about-facilities__grid { margin: 0; }
+  .about-facilities__grid { margin: 0 20px; }
   .about-values__grid { grid-template-columns: repeat(2, 1fr); }
   .about-value:last-child {
     grid-column: 1 / -1;
@@ -196,8 +218,8 @@
   .about-values .about-section__header,
   .about-facilities .about-section__header { margin-left: 20px; }
   .about-value { padding: 0 12px; border: 0; }
-  .about-value p {
-    font-size: 15px;
+  body main section.about-values .about-value p {
+    font-size: 13px !important;
     line-height: 1.45;
     white-space: normal;
   }

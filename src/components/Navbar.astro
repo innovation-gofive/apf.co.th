@@ -41,15 +41,19 @@ const serviceSubmenu = [
 
                 {
                     menus.map((menu) => menu.href === "/services" ? (
-                        <div class="menu-item menu-item--has-submenu">
-                            <a
-                                href={withBase(menu.href)}
-                                class:list={{ active: currentPath === menu.href }}
-                                aria-current={currentPath === menu.href ? "page" : undefined}
-                            >
-                                {menu.title}
-                            </a>
-                            <div class="submenu">
+                        <div class:list={["menu-item", "menu-item--has-submenu", { "menu-item--active": currentPath === menu.href }]}>
+                            <div class="submenu-trigger">
+                                <a
+                                    href={withBase(menu.href)}
+                                    class:list={{ active: currentPath === menu.href }}
+                                    aria-current={currentPath === menu.href ? "page" : undefined}
+                                    aria-haspopup="true"
+                                >
+                                    {menu.title}
+                                </a>
+                                <button class="submenu-toggle" type="button" aria-label="เปิดเมนูบริการ" aria-controls="services-submenu" aria-expanded="false"></button>
+                            </div>
+                            <div class="submenu" id="services-submenu">
                                 {serviceSubmenu.map((child) => <a href={withBase(child.href)}>{child.title}</a>)}
                             </div>
                         </div>
@@ -94,6 +98,15 @@ const menu = document.querySelector(".navbar-right");
 
 button?.addEventListener("click", () => {
     menu?.classList.toggle("active");
+});
+
+document.querySelectorAll<HTMLButtonElement>(".submenu-toggle").forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+        const item = toggle.closest(".menu-item--has-submenu");
+        const isOpen = item?.classList.toggle("is-open") ?? false;
+        toggle.setAttribute("aria-expanded", String(isOpen));
+        toggle.setAttribute("aria-label", isOpen ? "ปิดเมนูบริการ" : "เปิดเมนูบริการ");
+    });
 });
 
 </script>
