@@ -137,6 +137,13 @@
     width:auto;
 }
 
+/* Use the available header height on wide screens without moving the nav links. */
+@media (min-width:1441px){
+    .logo img{
+        height:72px;
+    }
+}
+
 .phone{
     display:flex;
     align-items:center;

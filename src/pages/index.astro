@@ -76,15 +76,9 @@ const locationIcons = await getMediaList([
     home.acf.our_location.feature_3.icon_our_location,
 ]);
 
-const clientLogos = await getMediaList([
-    home.acf.client_1,
-    home.acf.client_2,
-    home.acf.client_3,
-    home.acf.client_4,
-    home.acf.client_5,
-    home.acf.client_6,
-    home.acf.client_8,
-]);
+const clientLogos = await getMediaList(
+    Array.from({ length: 13 }, (_, index) => home.acf[`client_${index + 1}`]),
+);
 
 const clients = {
     title: home.acf.our_clients_title,
