@@ -4,6 +4,7 @@ import Home from "../sections/Home.astro";
 import {
     fetchAPI,
     getMedia,
+    getMediaDetailsList,
     getMediaList,
     getPageBySlug
 } from "../services/wordpress";
@@ -38,7 +39,7 @@ const whyChooseIcons = await getMediaList([
     home.acf.why_choose_feature_3.icon,
     home.acf.why_choose_feature_4.icon
 ]);
-const technologyImages = await getMediaList([
+const technologyImages = await getMediaDetailsList([
     home.acf.technology_card_1.image,
     home.acf.technology_card_2.image,
     home.acf.technology_card_3.image,
@@ -103,15 +104,15 @@ const cta = {
 
 ---
 
-<Layout>
+<Layout heroImage={background.source_url} heroImageSrcset={background.srcset}>
 <div data-launch-home>
 <Home
     home={home}
-    background={background.source_url}
+    background={background}
     featureIcons={featureIcons}
     serviceIcons={serviceIcons}
     operatingIcons={operatingIcons}
-    whyChooseImage={whyChooseImage.source_url}
+    whyChooseImage={whyChooseImage}
     whyChooseIcons={whyChooseIcons}
     technologyImages={technologyImages}
     platformIcons={platformIcons}

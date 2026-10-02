@@ -1,5 +1,5 @@
 ---
-const { features = [], image, lineBreakBefore = {} } = Astro.props;
+const { features = [], image, lineBreakBefore = {}, joinLineBreaks = false } = Astro.props;
 const splitAtRequestedWord = (text: string = "", index: number) => {
   const word = lineBreakBefore[index];
   const breakIndex = word ? text.indexOf(word) : -1;
@@ -11,10 +11,15 @@ const splitAtRequestedWord = (text: string = "", index: number) => {
 
 <ul class="feature-list">
   {features.map((feature: any, index: number) => {
-    const [textBeforeBreak, textAfterBreak] = splitAtRequestedWord(feature.text, index);
+    const text = joinLineBreaks
+      ? String(feature.text ?? "").split(/[\u2028\r\n]+/).map((line) => line.trim()).join("")
+      : feature.text;
+    const [textBeforeBreak, textAfterBreak] = splitAtRequestedWord(text, index);
+    const title = String(textBeforeBreak).trimEnd();
+    const continuation = String(textAfterBreak).trim();
     return <li>
-      {image(feature.icon) && <img src={image(feature.icon)} alt="" />}
-      <div class="feature-list__content"><span class="feature-list__title">{textBeforeBreak}{textAfterBreak && <><br />{textAfterBreak}</>}</span>{feature.title && <span class="feature-list__description">{feature.title}</span>}</div>
+      {image(feature.icon) && <img src={image(feature.icon)} alt="" loading="lazy" decoding="async" />}
+      <div class="feature-list__content"><span class="feature-list__title">{title}{continuation && <><br />{continuation}</>}</span>{feature.title && <span class="feature-list__description">{String(feature.title).trim()}</span>}</div>
     </li>;
   })}
 </ul>

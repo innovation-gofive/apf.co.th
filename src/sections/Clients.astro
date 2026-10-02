@@ -1,6 +1,6 @@
 ---
 import "../styles/Clients.css";
-import "../styles/Home.css";
+import "../styles/CTA.css";
 import "../styles/TabletPortrait.css";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
@@ -27,6 +27,11 @@ interface ClientsProps {
 const { clients, heroBackground, statisticIcons, brandLogos, industryIcons, trustIcons, cta } = Astro.props as ClientsProps;
 const acf = clients.acf;
 
+const joinForcedLines = (text = "") => String(text)
+  .split(/[\u2028\r\n]+/)
+  .map((line) => line.trim())
+  .join(" ");
+
 const statistics = [1, 2, 3].map((number, index) => ({
   icon: statisticIcons[index],
   value: acf[`customers_hero_statistic_${number}`]?.value,
@@ -52,7 +57,7 @@ const logos = brandLogos.filter((logo): logo is string => Boolean(logo));
   <div class="container clients-hero__content">
     <h1>{acf.customers_hero_main_title}</h1>
     <span class="clients-hero__line" aria-hidden="true"></span>
-    <p>{acf.customers_hero_description}</p>
+    <p>{joinForcedLines(acf.customers_hero_description)}</p>
 
     {statistics.length > 0 && (
       <div class="clients-hero__statistics">
@@ -83,7 +88,7 @@ const logos = brandLogos.filter((logo): logo is string => Boolean(logo));
           <div class="clients-brands__grid">
             {logos.map((logo, index) => (
               <div class="clients-brand" aria-label={`Brand ${index + 1}`}>
-                <img src={logo} alt="" loading="lazy" />
+                <img src={logo} alt="" loading="lazy" decoding="async" />
               </div>
             ))}
           </div>
@@ -92,7 +97,7 @@ const logos = brandLogos.filter((logo): logo is string => Boolean(logo));
             <div class="clients-brands__track">
               {[...logos, ...logos].map((logo) => (
                 <div class="clients-brand" aria-hidden="true">
-                  <img src={logo} alt="" loading="lazy" />
+                  <img src={logo} alt="" loading="lazy" decoding="async" />
                 </div>
               ))}
             </div>
@@ -113,7 +118,7 @@ const logos = brandLogos.filter((logo): logo is string => Boolean(logo));
       <div class="clients-industries__grid">
         {industries.map((industry) => (
           <article class="clients-industry">
-            {industry.icon && <img src={industry.icon} alt="" />}
+            {industry.icon && <img src={industry.icon} alt="" loading="lazy" decoding="async" />}
             <h3>{industry.title}</h3>
             <p>{industry.description}</p>
           </article>
@@ -133,7 +138,7 @@ const logos = brandLogos.filter((logo): logo is string => Boolean(logo));
       <div class="clients-trust__grid">
         {trustItems.map((item) => (
           <article class="clients-trust__item">
-            {item.icon && <img src={item.icon} alt="" />}
+            {item.icon && <img src={item.icon} alt="" loading="lazy" decoding="async" />}
             <h3>{item.title}</h3>
             <p>{item.description}</p>
           </article>

@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import Services from "../sections/Services.astro";
-import { getMedia, getMediaList, getPageBySlug } from "../services/wordpress";
+import { getMedia, getMediaDetailsList, getMediaList, getPageBySlug } from "../services/wordpress";
 
 const services = await getPageBySlug("services");
 const acf = services.acf;
@@ -16,7 +16,7 @@ const [heroBackground, heroIcons, serviceImages, serviceFeatureIcons, capability
   getMediaList(
     [1, 2, 3, 4].map((number) => acf[`services_hero_feature_${number}`]?.icon),
   ),
-  getMediaList(serviceKeys.map((key) => acf[key]?.image)),
+  getMediaDetailsList(serviceKeys.map((key) => acf[key]?.image)),
   getMediaList(
     serviceKeys.flatMap((key) =>
       [1, 2, 3, 4, 5].map((number) => acf[key]?.[`feature_item_${number}`]?.icon),
@@ -38,7 +38,7 @@ const cta = {
 };
 ---
 
-<Layout>
+<Layout heroImage={heroBackground.source_url}>
   <Services
     services={services}
     heroBackground={heroBackground.source_url}

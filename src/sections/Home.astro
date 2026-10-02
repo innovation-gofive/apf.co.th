@@ -1,6 +1,7 @@
 ---
 import "../styles/Home.css";
 import "../styles/TabletPortrait.css";
+import WordPressImage from "../components/WordPressImage.astro";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -204,8 +205,19 @@ Hero
 
 <section
     class="hero"
-    style={`background-image: url('${background}')`}
 >
+
+    <picture class="hero-background" aria-hidden="true">
+        {background.srcset && <source srcset={background.srcset} sizes="100vw" />}
+        <img
+            src={background.source_url}
+            alt=""
+            width={background.media_details?.width}
+            height={background.media_details?.height}
+            fetchpriority="high"
+            decoding="sync"
+        />
+    </picture>
 
     <div class="hero-overlay"></div>
 
@@ -359,6 +371,8 @@ Operating Model
                                 <img
                                     src={step.icon}
                                     alt={step.title}
+                                    loading="lazy"
+                                    decoding="async"
                                 />
 
                                 <h3>{step.title}</h3>
@@ -418,6 +432,8 @@ Why Choose Us
                                 <img
                                     src={item.icon}
                                     alt={item.text}
+                                    loading="lazy"
+                                    decoding="async"
                                 />
 
                                 <span>
@@ -443,10 +459,7 @@ Why Choose Us
             <!-- Right -->
             <div class="why-image">
 
-                <img
-                    src={whyChooseImage}
-                    alt={home.acf.why_choose_title}
-                />
+                <WordPressImage media={whyChooseImage} alt={home.acf.why_choose_title} sizes="(max-width: 992px) 100vw, 50vw" />
 
             </div>
 
@@ -481,10 +494,7 @@ Technology & Automation
 
                         <div class="technology-card">
 
-                            <img
-                                src={card.image}
-                                alt={card.title}
-                            />
+                            <WordPressImage media={card.image} alt={card.title} sizes="(max-width: 768px) 100vw, 25vw" />
 
                             <div class="technology-content">
 
@@ -541,7 +551,7 @@ Our Platform
                             <div class="platform-item">
 
                                 <div class="platform-icon">
-                                    <img src={item.icon} alt={item.title} />
+                                    <img src={item.icon} alt={item.title} loading="lazy" decoding="async" />
                                 </div>
 
                                 <div class="platform-content">
@@ -576,6 +586,7 @@ Our Platform
                 <iframe
                     src="https://www.youtube.com/embed/i_YfPkh2SsQ?autoplay=1&mute=1&playsinline=1&loop=1&playlist=i_YfPkh2SsQ"
                     title="APF video"
+                    loading="lazy"
                     referrerpolicy="strict-origin-when-cross-origin"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     allowfullscreen
@@ -619,6 +630,8 @@ Smart Platform Features
                             <img
                                 src={feature.icon}
                                 alt={feature.title}
+                                loading="lazy"
+                                decoding="async"
                             />
 
                             <span>
@@ -706,6 +719,8 @@ Warehouse & Our Location
                                     <img
                                         src={feature.icon}
                                         alt={feature.title}
+                                        loading="lazy"
+                                        decoding="async"
                                     />
 
                                     <div class="location-text">

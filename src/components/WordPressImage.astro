@@ -1,0 +1,31 @@
+---
+import type { WordPressMedia } from "../services/wordpress";
+
+const {
+  media,
+  alt = "",
+  loading = "lazy",
+  sizes,
+  class: className,
+} = Astro.props as {
+  media: WordPressMedia | null | undefined;
+  alt?: string;
+  loading?: "lazy" | "eager";
+  sizes?: string;
+  class?: string;
+};
+---
+
+{media && (
+  <img
+    src={media.source_url}
+    srcset={media.srcset}
+    sizes={media.srcset ? sizes : undefined}
+    width={media.media_details?.width}
+    height={media.media_details?.height}
+    alt={alt}
+    loading={loading}
+    decoding="async"
+    class={className}
+  />
+)}

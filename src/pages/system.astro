@@ -1,7 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import System from "../sections/System.astro";
-import { getMedia, getMediaList, getPageBySlug } from "../services/wordpress";
+import { getMedia, getMediaDetailsList, getMediaList, getPageBySlug } from "../services/wordpress";
 
 const system = await getPageBySlug("system");
 const acf = system.acf;
@@ -21,8 +21,8 @@ const [
 ] = await Promise.all([
   getMedia(acf.system_hero_background_image),
   getMediaList(platformKeys.map((key) => acf[key]?.icon)),
-  getMediaList(platformKeys.map((key) => acf[key]?.image)),
-  getMediaList(
+  getMediaDetailsList(platformKeys.map((key) => acf[key]?.image)),
+  getMediaDetailsList(
     useCaseKeys.flatMap((key) =>
       ["image", "image_1", "image_2", "image_3"].map((field) => acf[key]?.[field]),
     ),
@@ -50,7 +50,7 @@ const cta = {
 };
 ---
 
-<Layout>
+<Layout heroImage={heroBackground.source_url}>
   <System
     system={system}
     heroBackground={heroBackground.source_url}

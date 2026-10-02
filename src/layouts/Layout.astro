@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-const { showChrome = true, hideChromeInitially = false } = Astro.props;
+const { showChrome = true, hideChromeInitially = false, heroImage, heroImageSrcset, heroImageSizes = "100vw" } = Astro.props;
 ---
 
 <!doctype html>
@@ -15,6 +15,14 @@ const { showChrome = true, hideChromeInitially = false } = Astro.props;
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- WordPress blocks image requests that originate from a different domain. -->
     <meta name="referrer" content="no-referrer" />
+
+    <!-- Reuse early connections for the site font and WordPress-hosted media. -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://cms.apf.co.th" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&display=swap" />
+
+    {heroImage && <link rel="preload" as="image" href={heroImage} imagesrcset={heroImageSrcset} imagesizes={heroImageSrcset ? heroImageSizes : undefined} fetchpriority="high" />}
 
     <link rel="icon" type="image/svg+xml" href={`${basePath}/favicon.svg`} />
 

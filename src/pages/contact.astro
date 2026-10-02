@@ -22,7 +22,7 @@ const [heroBackground, benefitIcons, mapImage, contactInfoIcons] = await Promise
 ]);
 ---
 
-<Layout>
+<Layout heroImage={heroBackground}>
   <Fragment slot="head"><title>ติดต่อเรา | APF</title></Fragment>
   <Contact contact={contact} heroBackground={heroBackground} benefitIcons={benefitIcons} contactInfoIcons={contactInfoIcons} mapImage={mapImage} />
 </Layout>

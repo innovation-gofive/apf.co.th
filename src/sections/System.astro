@@ -1,7 +1,8 @@
 ---
 import "../styles/System.css";
-import "../styles/Home.css";
+import "../styles/CTA.css";
 import "../styles/TabletPortrait.css";
+import WordPressImage from "../components/WordPressImage.astro";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -24,7 +25,30 @@ function splitEyebrow(title = "") {
   return { firstWord, remainingWords: remainingWords.join(" ") };
 }
 
+function joinForcedLines(text = "") {
+  return String(text)
+    .split(/[\u2028\r\n]+/)
+    .map((line) => line.trim())
+    .join(" ")
+    .replace(/Real-Time/gi, "Real\u2011Time");
+}
+
+function joinHeroLines(text = "") {
+  return String(text)
+    .split(/[\u2028\r\n]+/)
+    .map((line) => line.trim())
+    .join("")
+    .replace(/([A-Za-z0-9])(?=[\u0E00-\u0E7F])/g, "$1 ")
+    .replaceAll("ออเดอร์", "ออเด\u2060อร์")
+    .replace(/Real-Time/gi, "Real\u2011Time");
+}
+
 const heroEyebrow = splitEyebrow(acf.system_hero_small_title);
+const heroDescriptionLines = [
+  "ShipX คือแพลตฟอร์มบริหารจัดการคลังสินค้า ออเดอร์ และการจัดส่งแบบครบวงจร",
+  "เชื่อมต่อทุกกระบวนการทำงานแบบ Real‑time",
+  "เพื่อให้ธุรกิจดำเนินงานได้อย่างมีประสิทธิภาพมากขึ้น",
+];
 const platformEyebrow = splitEyebrow(acf.system_platform_small_title);
 const useCasesEyebrow = splitEyebrow(acf.system_use_cases_small_title);
 const integrationEyebrow = splitEyebrow(acf.system_integration_small_title);
@@ -36,7 +60,7 @@ const platforms = [1, 2, 3, 4].map((number, index) => {
     image: platformImages[index],
     title: card?.title,
     smallTitle: card?.small_title,
-    description: card?.description,
+    description: String(card?.description ?? "").replace(/Real-Time/gi, "Real\u2011Time"),
   };
 });
 
@@ -48,7 +72,7 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
   return {
     number: card?.number,
     title: card?.title,
-    description: card?.description,
+    description: joinForcedLines(card?.description),
     images,
     features:
       featureStart < 0
@@ -69,7 +93,7 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
       <span>{heroEyebrow.firstWord}</span> {heroEyebrow.remainingWords}
     </p>
     <h1>{acf.system_hero_main_title}</h1>
-    <p class="system-hero__description">{acf.system_hero_description}</p>
+    <p class="system-hero__description">{heroDescriptionLines.map((line) => <span>{line}</span>)}</p>
     <div class="system-hero__buttons">
       <a class="system-button system-button--primary" href={`${basePath}/contact#demo`}>
         {acf.system_hero_primary_button_text} 
@@ -95,16 +119,37 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
       {platforms.map((platform) => (
         <article class="platform-card">
           <header>
-            {platform.icon && <img src={platform.icon} alt="" />}
+            {platform.icon && <img src={platform.icon} alt="" loading="lazy" decoding="async" />}
             <div><h3>{platform.title}</h3><p>{platform.smallTitle}</p></div>
           </header>
-          {platform.image && <img class="platform-card__image" src={platform.image} alt={platform.title || ""} loading="lazy" />}
+          {platform.image && (
+            <button
+              class="platform-card__image-button"
+              type="button"
+              data-platform-preview
+              data-image={platform.image.source_url}
+              data-alt={platform.title || "ภาพตัวอย่างระบบ"}
+              aria-label={`ดูภาพ ${platform.title || "ระบบ"} ขนาดใหญ่`}
+            >
+              <WordPressImage
+                class="platform-card__image"
+                media={platform.image}
+                alt={platform.title || ""}
+                sizes="(max-width: 768px) 100vw, 25vw"
+              />
+            </button>
+          )}
           <p class="platform-card__description">{platform.description}</p>
         </article>
       ))}
     </div>
   </div>
 </section>
+
+<div class="system-image-lightbox" data-system-lightbox hidden role="dialog" aria-modal="true" aria-label="ดูภาพขนาดใหญ่">
+  <button class="system-image-lightbox__close" type="button" data-lightbox-close aria-label="ปิดภาพขนาดใหญ่">×</button>
+  <img class="system-image-lightbox__image" data-lightbox-image alt="" />
+</div>
 
 <section class="system-section system-use-cases">
   <div class="container">
@@ -122,14 +167,14 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
             <p>{useCase.description}</p>
             {index === 0 && (
               <div class="use-case__partners">
-                {useCasePartnerLogos.map((logo) => logo && <img src={logo} alt="Partner logo" loading="lazy" />)}
+                {useCasePartnerLogos.map((logo) => logo && <img src={logo} alt="Partner logo" loading="lazy" decoding="async" />)}
               </div>
             )}
             {useCase.features.length > 0 && (
               <div class="use-case__features">
                 {useCase.features.map((feature) => (
                   <span>
-                    {feature.icon && <img src={feature.icon} alt="" />}
+                    {feature.icon && <img src={feature.icon} alt="" loading="lazy" decoding="async" />}
                     <em>{feature.text}</em>
                   </span>
                 ))}
@@ -137,13 +182,21 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
             )}
             {index === 2 && useCase.images[0] && (
               <div class="use-case__timeline">
-                <img src={useCase.images[0]} alt={useCase.title || ""} loading="lazy" />
+                <WordPressImage
+                  media={useCase.images[0]}
+                  alt={useCase.title || ""}
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
               </div>
             )}
           </div>
           <div class:list={["use-case__visual", { "use-case__visual--gallery": (index === 2 ? useCase.images.slice(1) : useCase.images).length > 1 }]}>
             {(index === 2 ? useCase.images.slice(1) : useCase.images).map((image) => (
-              <img src={image} alt={useCase.title || ""} loading="lazy" />
+              <WordPressImage
+                media={image}
+                alt={useCase.title || ""}
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             ))}
           </div>
         </article>
@@ -152,6 +205,39 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
   </div>
 </section>
 
+<script>
+  const lightbox = document.querySelector<HTMLElement>("[data-system-lightbox]");
+  const lightboxImage = lightbox?.querySelector<HTMLImageElement>("[data-lightbox-image]");
+  const lightboxClose = lightbox?.querySelector<HTMLButtonElement>("[data-lightbox-close]");
+  let lastPreview: HTMLButtonElement | null = null;
+
+  const closeLightbox = () => {
+    if (!lightbox) return;
+    lightbox.hidden = true;
+    lightboxImage?.removeAttribute("src");
+    lastPreview?.focus();
+  };
+
+  document.querySelectorAll<HTMLButtonElement>("[data-platform-preview]").forEach((preview) => {
+    preview.addEventListener("click", () => {
+      if (!lightbox || !lightboxImage) return;
+      lastPreview = preview;
+      lightboxImage.src = preview.dataset.image || "";
+      lightboxImage.alt = preview.dataset.alt || "ภาพตัวอย่างระบบ";
+      lightbox.hidden = false;
+      lightboxClose?.focus();
+    });
+  });
+
+  lightboxClose?.addEventListener("click", closeLightbox);
+  lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && lightbox && !lightbox.hidden) closeLightbox();
+  });
+</script>
+
 <section class="system-section system-integration">
   <div class="container">
     <header class="system-section__heading">
@@ -159,7 +245,7 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
       <h2>{acf.system_integration_main_title}</h2>
     </header>
     <div class="integration-logos">
-      {integrationLogos.map((logo) => logo && <img src={logo} alt="Integration partner" loading="lazy" />)}
+      {integrationLogos.map((logo) => logo && <img src={logo} alt="Integration partner" loading="lazy" decoding="async" />)}
     </div>
   </div>
 </section>

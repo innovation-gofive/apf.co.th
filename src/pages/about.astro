@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import About from "../sections/About.astro";
 import {
   getMedia,
+  getMediaDetailsList,
   getMediaList,
   getPageBySlug,
 } from "../services/wordpress";
@@ -27,7 +28,7 @@ const [
   getMediaList(
     [1, 2, 3, 4].map((n) => acf[`platform_cards_${n}`][`platform_${n}_icon`]),
   ),
-  getMediaList(
+  getMediaDetailsList(
     [1, 2, 3, 4].map((n) => acf[`facility_images_${n}`][`facility_${n}_image`]),
   ),
   getPageBySlug("global-cta"),
@@ -44,7 +45,7 @@ const cta = {
 };
 ---
 
-<Layout>
+<Layout heroImage={heroBackground.source_url}>
   <About
     about={about}
     heroBackground={heroBackground.source_url}

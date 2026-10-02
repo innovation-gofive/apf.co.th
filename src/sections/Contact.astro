@@ -35,7 +35,7 @@ const benefits = [1, 2, 3, 4, 5].map((number, index) => ({
           const item = acf[key];
           const primary = item?.phone_number || item?.email || item?.company_name || item?.website_url;
           return item && <article class="contact-information__item">
-            {contactInfoIcons[index] && <span class="contact-information__icon"><img src={contactInfoIcons[index]} alt="" /></span>}
+            {contactInfoIcons[index] && <span class="contact-information__icon"><img src={contactInfoIcons[index]} alt="" loading="lazy" decoding="async" /></span>}
             <div>
               <h3>{item.title}</h3>
               {type === "phone" ? <a href={`tel:${String(primary).replace(/[^+\d]/g, "")}`}>{primary}</a> : null}
@@ -56,7 +56,7 @@ const benefits = [1, 2, 3, 4, 5].map((number, index) => ({
   <div class="container">
     <div class="contact-benefits__grid">
       {benefits.map((benefit) => <article class="contact-benefit">
-        {benefit.icon && <img src={benefit.icon} alt="" />}
+        {benefit.icon && <img src={benefit.icon} alt="" loading="lazy" decoding="async" />}
         <h2>{benefit.title}</h2>
         <p>{benefit.description}</p>
       </article>)}
@@ -74,7 +74,7 @@ const benefits = [1, 2, 3, 4, 5].map((number, index) => ({
         <p>{acf.contact_location_description}</p>
         {acf.contact_location_button_text && <a href={acf.contact_location_button_url} target="_blank" rel="noreferrer" class="contact-location__button">{acf.contact_location_button_text}<span aria-hidden="true">↗</span></a>}
       </div>
-      {mapImage && <a class="contact-location__map-link" href={acf.contact_location_button_url} target="_blank" rel="noreferrer" aria-label="เปิดแผนที่ใน Google Maps"><img class="contact-location__map" src={mapImage} alt="แผนที่บริษัท APF" loading="lazy" /></a>}
+      {mapImage && <a class="contact-location__map-link" href={acf.contact_location_button_url} target="_blank" rel="noreferrer" aria-label="เปิดแผนที่ใน Google Maps"><img class="contact-location__map" src={mapImage} alt="แผนที่บริษัท APF" loading="lazy" decoding="async" /></a>}
     </div>
   </div>
 </section>

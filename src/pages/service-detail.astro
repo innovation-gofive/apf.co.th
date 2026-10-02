@@ -7,6 +7,6 @@ const page = await getPageBySlug("service-detail");
 const media = await getMediaMap(page.acf);
 ---
 
-<Layout>
+<Layout heroImage={media[page.acf.service_detail_hero_background_image]}>
   <ServiceDetail acf={page.acf} media={media} />
 </Layout>

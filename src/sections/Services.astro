@@ -1,7 +1,8 @@
 ---
 import "../styles/Services.css";
-import "../styles/Home.css";
+import "../styles/CTA.css";
 import "../styles/TabletPortrait.css";
+import WordPressImage from "../components/WordPressImage.astro";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -84,9 +85,16 @@ const capabilities = [1, 2, 3, 4, 5, 6].map((number, index) => ({
         <article class="service-detail" id={service.id}>
           <div class="service-detail__copy">
             <h3>{service.title}</h3><p>{service.description}</p>
-            <ul>{service.features.map((feature) => (<li>{feature.icon && <img src={feature.icon} alt="" />}{feature.text}</li>))}</ul>
+            <ul>{service.features.map((feature) => (<li>{feature.icon && <img src={feature.icon} alt="" loading="lazy" decoding="async" />}{feature.text}</li>))}</ul>
           </div>
-          {service.image && <img class="service-detail__image" src={service.image} alt={service.title || ""} loading="lazy" />}
+          {service.image && (
+            <WordPressImage
+              class="service-detail__image"
+              media={service.image}
+              alt={service.title || ""}
+              sizes="(max-width: 768px) 100vw, 45vw"
+            />
+          )}
         </article>
       ))}
     </div>
@@ -103,7 +111,7 @@ const capabilities = [1, 2, 3, 4, 5, 6].map((number, index) => ({
       {capabilities.map((capability) => {
         const description = splitCapabilityDescription(capability.description, capability.mobileDescriptionBreak);
         return <article class="capability">
-          {capability.icon && <img src={capability.icon} alt="" />}
+          {capability.icon && <img src={capability.icon} alt="" loading="lazy" decoding="async" />}
           <h3>{capability.title}</h3><p>{description.firstLine}{description.secondLine && <><br />{description.secondLine}</>}</p>
         </article>;
       })}

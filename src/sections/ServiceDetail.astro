@@ -46,12 +46,12 @@ const tabs = [
       <h3 class="section-divider"><span>{acf.service_detail_b2b_services_title}</span></h3>
       <div class="b2b-services">
         {b2bServices.map((service: any) => <article class="service-card-detail">
-          {image(service.icon) && <div class="service-card-detail__icon"><img src={image(service.icon)} alt="" /></div>}
+          {image(service.icon) && <div class="service-card-detail__icon"><img src={image(service.icon)} alt="" loading="lazy" decoding="async" /></div>}
           <h3>{service.title}</h3><p>{service.description}</p>
           <FeatureList features={items(service)} {image} />
         </article>)}
       </div>
-      <section class="benefits-panel"><h3>{acf.service_detail_b2b_benefits_title}</h3><div>{b2bBenefits.map((benefit: any) => <article>{image(benefit.icon) && <div class="benefit-icon"><img src={image(benefit.icon)} alt="" /></div>}<p>{benefit.title}</p></article>)}</div></section>
+      <section class="benefits-panel"><h3>{acf.service_detail_b2b_benefits_title}</h3><div>{b2bBenefits.map((benefit: any) => <article>{image(benefit.icon) && <div class="benefit-icon"><img src={image(benefit.icon)} alt="" loading="lazy" decoding="async" /></div>}<p>{benefit.title}</p></article>)}</div></section>
     </section>
 
     <section class="service-panel" id="panel-warehouse" role="tabpanel" data-panel="warehouse" hidden>
@@ -65,7 +65,7 @@ const tabs = [
       <Intro title={acf.service_detail_b2c_intro_main_title} description={acf.service_detail_b2c_intro_description} />
       <FeatureBlock group={acf.service_detail_b2c_order_integration} {image} secondaryImage />
       <div class="feature-block-grid b2c-grid"><FeatureBlock group={acf.service_detail_b2c_order_processing} {image} compact /><ProcessBlock eyebrow={acf.service_detail_b2c_pick_pack_small_title} title={acf.service_detail_b2c_pick_pack_main_title} steps={b2cPickPack} {image} compact /></div>
-      <div class="feature-block-grid"><FeatureBlock group={acf.service_detail_b2c_tracking} {image} compact secondaryImage /><FeatureBlock group={acf.service_detail_b2c_return_management} {image} compact featureLineBreakBefore={{ 1: "ของสินค้าคืน" }} /></div>
+      <div class="feature-block-grid"><FeatureBlock group={acf.service_detail_b2c_tracking} {image} compact secondaryImage joinFeatureLines /><FeatureBlock group={acf.service_detail_b2c_return_management} {image} compact joinFeatureLines /></div>
     </section>
 
     <section class="service-panel" id="panel-transportation" role="tabpanel" data-panel="transportation" hidden>

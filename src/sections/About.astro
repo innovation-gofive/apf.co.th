@@ -1,7 +1,8 @@
 ---
 import "../styles/About.css";
-import "../styles/Home.css";
+import "../styles/CTA.css";
 import "../styles/TabletPortrait.css";
+import WordPressImage from "../components/WordPressImage.astro";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 
@@ -26,6 +27,22 @@ function splitEyebrow(title = "") {
   };
 }
 
+const joinForcedLines = (text = "") => String(text)
+  .split(/[\u2028\r\n]+/)
+  .map((line) => line.trim())
+  .join(" ");
+
+const preventMidWordBreak = (text = "") => joinForcedLines(text)
+  .replaceAll("ออเดอร์", "ออเด\u2060อร์")
+  .replaceAll("Real-time", "Real‑time")
+  .replaceAll("ควบคุม", "ควบ\u2060คุม")
+  .replaceAll("คลังสินค้า", "คลัง\u2060สินค้า")
+  .replaceAll("คำสั่งซื้อ", "คำ\u2060สั่ง\u2060ซื้อ")
+  .replaceAll("จัดการ", "จัด\u2060การ")
+  .replaceAll("ระบบงาน", "ระบบ\u2060งาน")
+  .replaceAll("การดำเนินงาน", "การ\u2060ดำเนิน\u2060งาน")
+  .replaceAll("ประสิทธิภาพ การดำเนินงาน", "ประสิทธิภาพ\u2060การ\u2060ดำเนิน\u2060งาน");
+
 const whoWeAreEyebrow = splitEyebrow(acf.who_we_are_small_title);
 const valuesEyebrow = splitEyebrow(acf.our_values_small_title);
 const platformEyebrow = splitEyebrow(acf.platform_small_title);
@@ -40,13 +57,13 @@ const statistics = [1, 2, 3, 4].map((number, index) => ({
 const values = [1, 2, 3, 4, 5].map((number, index) => ({
   icon: valueIcons[index],
   title: acf[`value_cards_${number}`]?.[`value_${number}_title`],
-  description: acf[`value_cards_${number}`]?.[`value_${number}_description`],
+  description: preventMidWordBreak(acf[`value_cards_${number}`]?.[`value_${number}_description`]),
 }));
 
 const platforms = [1, 2, 3, 4].map((number, index) => ({
   icon: platformIcons[index],
   title: acf[`platform_cards_${number}`]?.[`platform_${number}_title`],
-  description: acf[`platform_cards_${number}`]?.[`platform_${number}_description`],
+  description: preventMidWordBreak(acf[`platform_cards_${number}`]?.[`platform_${number}_description`]),
 }));
 
 const facilities = [1, 2, 3, 4].map((number, index) => ({
@@ -73,7 +90,7 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
           {" "}{whoWeAreEyebrow.remainingWords}
         </p>
         <h2>{acf.who_we_are_main_title}</h2>
-        <p class="about-who__description">{acf.who_we_are_description}</p>
+        <p class="about-who__description">{joinForcedLines(acf.who_we_are_description)}</p>
 
         {acf.who_we_are_button_text && (
           <a class="about-button" href={`${basePath}/services`}>
@@ -85,7 +102,7 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
       <div class="about-statistics">
         {statistics.map((card) => (
           <article class="about-statistic">
-            {card.icon && <img src={card.icon} alt="" />}
+            {card.icon && <img src={card.icon} alt="" loading="lazy" decoding="async" />}
             <div>
               <h3>{card.title}</h3>
               <p>{card.description}</p>
@@ -110,7 +127,7 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
     <div class="about-values__grid">
       {values.map((value) => (
         <article class="about-value">
-          {value.icon && <img src={value.icon} alt="" />}
+          {value.icon && <img src={value.icon} alt="" loading="lazy" decoding="async" />}
           <h3>{value.title}</h3>
           <p>{value.description}</p>
         </article>
@@ -133,7 +150,7 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
       <div class="about-platform__grid">
         {platforms.map((platform) => (
           <article class="about-platform-card">
-            {platform.icon && <img src={platform.icon} alt="" />}
+            {platform.icon && <img src={platform.icon} alt="" loading="lazy" decoding="async" />}
             <div class="about-platform-card__content">
               <h3>{platform.title}</h3>
               <p>{platform.description}</p>
@@ -159,7 +176,11 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
       {facilities.map((facility) => (
         <article class="about-facility">
           {facility.image && (
-            <img src={facility.image} alt={facility.title || ""} loading="lazy" />
+            <WordPressImage
+              media={facility.image}
+              alt={facility.title || ""}
+              sizes="(max-width: 768px) 100vw, 25vw"
+            />
           )}
           <h3>{facility.title}</h3>
         </article>
