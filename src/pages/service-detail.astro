@@ -7,6 +7,10 @@ const page = await getPageBySlug("service-detail");
 const media = await getMediaMap(page.acf);
 ---
 
-<Layout heroImage={media[page.acf.service_detail_hero_background_image]}>
+<Layout
+  heroImage={media[page.acf.service_detail_hero_background_image]}
+  title="รายละเอียดโซลูชัน Fulfillment สำหรับธุรกิจ B2B และ B2C | APF"
+  description="ดูรายละเอียดโซลูชัน Fulfillment ของ APF สำหรับ B2B และ eCommerce ครอบคลุมการจัดการคลังสินค้า การรับและแพ็กออเดอร์ ตลอดจนการขนส่งและกระจายสินค้าถึงปลายทาง"
+>
   <ServiceDetail acf={page.acf} media={media} />
 </Layout>

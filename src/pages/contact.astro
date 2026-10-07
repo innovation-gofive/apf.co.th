@@ -22,7 +22,10 @@ const [heroBackground, benefitIcons, mapImage, contactInfoIcons] = await Promise
 ]);
 ---
 
-<Layout heroImage={heroBackground}>
-  <Fragment slot="head"><title>ติดต่อเรา | APF</title></Fragment>
+<Layout
+  heroImage={heroBackground}
+  title="ติดต่อทีม APF เพื่อรับคำปรึกษา Fulfillment ฟรี | APF"
+  description="ติดต่อทีม APF เพื่อรับคำปรึกษาฟรี ขอใบเสนอราคา หรือสอบถามบริการ Fulfillment คลังสินค้า และการจัดส่ง พร้อมดูแลข้อมูลอย่างปลอดภัยและตอบกลับอย่างรวดเร็ว"
+>
   <Contact contact={contact} heroBackground={heroBackground} benefitIcons={benefitIcons} contactInfoIcons={contactInfoIcons} mapImage={mapImage} />
 </Layout>

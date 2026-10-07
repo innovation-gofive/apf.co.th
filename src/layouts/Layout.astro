@@ -4,7 +4,15 @@ import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-const { showChrome = true, hideChromeInitially = false, heroImage, heroImageSrcset, heroImageSizes = "100vw" } = Astro.props;
+const {
+  showChrome = true,
+  hideChromeInitially = false,
+  heroImage,
+  heroImageSrcset,
+  heroImageSizes = "100vw",
+  title = "APF",
+  description,
+} = Astro.props;
 ---
 
 <!doctype html>
@@ -28,9 +36,8 @@ const { showChrome = true, hideChromeInitially = false, heroImage, heroImageSrcs
 
     <meta name="generator" content={Astro.generator} />
 
-    <title>APF</title>
-
-    <slot name="head" />
+    <title>{title}</title>
+    {description && <meta name="description" content={description} />}
 </head>
 
 <body>
