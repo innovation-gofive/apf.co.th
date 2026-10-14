@@ -49,6 +49,15 @@ const heroDescriptionLines = [
   "เชื่อมต่อทุกกระบวนการทำงานแบบ Real‑time",
   "เพื่อให้ธุรกิจดำเนินงานได้อย่างมีประสิทธิภาพมากขึ้น",
 ];
+const platformDescription =
+  "ShipX รวมระบบการจัดการคำสั่งซื้อ (OMS), ระบบจัดการคลังสินค้า (WMS), ระบบจัดการขนส่ง (TMS) และ Analytics เพื่อให้ข้อมูลการขาย สต็อก และการจัดส่งเชื่อมต่อกันในแพลตฟอร์มเดียว";
+const platformContentOverrides = {
+  1: "ระบบจัดการคลังสินค้า (WMS) ช่วยบริหารสต็อก ตำแหน่งจัดเก็บ และการหยิบแพ็กอย่างมีประสิทธิภาพ",
+  2: "ระบบการจัดการคำสั่งซื้อ (OMS) รวมออเดอร์จากทุกช่องทาง อัปเดตสถานะแบบ Real‑time และช่วยลดความผิดพลาด",
+};
+const useCaseTitleOverrides = {
+  4: "รวมข้อมูลออเดอร์ สินค้า และสถานะจัดส่งไว้ในระบบเดียว",
+};
 const platformEyebrow = splitEyebrow(acf.system_platform_small_title);
 const useCasesEyebrow = splitEyebrow(acf.system_use_cases_small_title);
 const integrationEyebrow = splitEyebrow(acf.system_integration_small_title);
@@ -60,7 +69,9 @@ const platforms = [1, 2, 3, 4].map((number, index) => {
     image: platformImages[index],
     title: card?.title,
     smallTitle: card?.small_title,
-    description: String(card?.description ?? "").replace(/Real-Time/gi, "Real\u2011Time"),
+    description:
+      platformContentOverrides[number as keyof typeof platformContentOverrides] ??
+      String(card?.description ?? "").replace(/Real-Time/gi, "Real\u2011Time"),
   };
 });
 
@@ -71,7 +82,7 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
 
   return {
     number: card?.number,
-    title: card?.title,
+    title: useCaseTitleOverrides[number as keyof typeof useCaseTitleOverrides] ?? card?.title,
     description: joinForcedLines(card?.description),
     images,
     features:
@@ -92,7 +103,7 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
     <p class="system-hero__eyebrow">
       <span>{heroEyebrow.firstWord}</span> {heroEyebrow.remainingWords}
     </p>
-    <h1>{acf.system_hero_main_title}</h1>
+    <h1>ระบบการจัดการคำสั่งซื้อและคลังสินค้า เพื่อการทำงานที่เชื่อมต่อกัน</h1>
     <p class="system-hero__description">{heroDescriptionLines.map((line) => <span>{line}</span>)}</p>
     <div class="system-hero__buttons">
       <a class="system-button system-button--primary" href={`${basePath}/contact#demo`}>
@@ -113,6 +124,7 @@ const useCases = [1, 2, 3, 4].map((number, index) => {
         <b>{platformEyebrow.remainingWords}</b>
       </p>
       <h2>{acf.system_platform_main_title}</h2>
+      <p>{platformDescription}</p>
       <i></i>
     </header>
     <div class="platform-grid">
