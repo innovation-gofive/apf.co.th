@@ -93,7 +93,7 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
         <p class="about-who__description">{joinForcedLines(acf.who_we_are_description)}</p>
 
         {acf.who_we_are_button_text && (
-          <a class="about-button" href={`${basePath}/services`}>
+          <a class="about-button" href={`${basePath}/services/`}>
             {acf.who_we_are_button_text}
           </a>
         )}
@@ -202,10 +202,10 @@ const facilities = [1, 2, 3, 4].map((number, index) => ({
       </div>
 
       <div class="cta-buttons">
-        <a href={`${basePath}/contact#inquiry`} class="btn-outline">
+        <a href={`${basePath}/contact/#inquiry`} class="btn-outline">
           {cta.primaryButton.cta_primary_text}
         </a>
-        <a href={`${basePath}/contact#demo`} class="btn-outline">
+        <a href={`${basePath}/contact/#demo`} class="btn-outline">
           {cta.secondaryButton.cta_secondary_text}
         </a>
       </div>

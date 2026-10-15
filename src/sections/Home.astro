@@ -302,7 +302,7 @@ Service Cards
                 services.map((service, index) => (
 
             <a
-                href={`${basePath}/service-detail#${["b2b", "warehouse", "b2c", "transportation"][index]}`}
+                href={`${basePath}/service-detail/#${["b2b", "warehouse", "b2c", "transportation"][index]}`}
                 class={`service-card ${index % 2 === 0 ? "blue" : "green"}`}
             >
 
@@ -448,7 +448,7 @@ Why Choose Us
                 </div>
 
                 <a
-                    href={`${basePath}/about`}
+                    href={`${basePath}/about/`}
                     class="why-btn"
                 >
                     {home.acf.why_choose_button.text}
@@ -855,14 +855,14 @@ CTA Banner
             <div class="cta-buttons">
 
                 <a
-                    href={`${basePath}/contact#inquiry`}
+                    href={`${basePath}/contact/#inquiry`}
                     class="btn-outline"
                 >
                     {cta.primaryButton.cta_primary_text}
                 </a>
 
                 <a
-                    href={`${basePath}/contact#demo`}
+                    href={`${basePath}/contact/#demo`}
                     class="btn-outline"
                 >
                     {cta.secondaryButton.cta_secondary_text}

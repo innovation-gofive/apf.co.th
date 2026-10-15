@@ -3,21 +3,21 @@ import "../styles/Navbar.css";
 
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
 const withBase = (path: string) => `${basePath}${path}`;
-const currentPath = Astro.url.pathname.slice(basePath.length).replace(/\/$/, "") || "/";
+const currentPath = Astro.url.pathname.slice(basePath.length) || "/";
 
 const menus = [
   { title: "หน้าหลัก", href: "/" },
-  { title: "เกี่ยวกับเรา", href: "/about" },
+  { title: "เกี่ยวกับเรา", href: "/about/" },
   { title: "บริการ", href: "/services/" },
-  { title: "ระบบของเรา", href: "/system" },
-  { title: "ลูกค้าของเรา", href: "/clients" },
+  { title: "ระบบของเรา", href: "/system/" },
+  { title: "ลูกค้าของเรา", href: "/clients/" },
 ];
 
 const serviceSubmenu = [
-  { title: "B2B Fulfillment", href: "/service-detail#b2b" },
-  { title: "Warehouse Management", href: "/service-detail#warehouse" },
-  { title: "B2C Fulfillment", href: "/service-detail#b2c" },
-  { title: "Transportation Services", href: "/service-detail#transportation" },
+  { title: "B2B Fulfillment", href: "/service-detail/#b2b" },
+  { title: "Warehouse Management", href: "/service-detail/#warehouse" },
+  { title: "B2C Fulfillment", href: "/service-detail/#b2c" },
+  { title: "Transportation Services", href: "/service-detail/#transportation" },
 ];
 ---
 
@@ -41,12 +41,12 @@ const serviceSubmenu = [
 
                 {
                     menus.map((menu) => menu.href === "/services/" ? (
-                        <div class:list={["menu-item", "menu-item--has-submenu", { "menu-item--active": currentPath === "/services" }]}>
+                        <div class:list={["menu-item", "menu-item--has-submenu", { "menu-item--active": currentPath === menu.href }]}>
                             <div class="submenu-trigger">
                                 <a
                                     href={withBase(menu.href)}
-                                    class:list={{ active: currentPath === "/services" }}
-                                    aria-current={currentPath === "/services" ? "page" : undefined}
+                                    class:list={{ active: currentPath === menu.href }}
+                                    aria-current={currentPath === menu.href ? "page" : undefined}
                                     aria-haspopup="true"
                                 >
                                     {menu.title}
@@ -81,7 +81,7 @@ const serviceSubmenu = [
 
             </a>
 
-            <a href={withBase("/contact")} class="btn btn-primary">
+            <a href={withBase("/contact/")} class="btn btn-primary">
                 ติดต่อเรา
             </a>
 
