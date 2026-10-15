@@ -8,7 +8,7 @@ const currentPath = Astro.url.pathname.slice(basePath.length).replace(/\/$/, "")
 const menus = [
   { title: "หน้าหลัก", href: "/" },
   { title: "เกี่ยวกับเรา", href: "/about" },
-  { title: "บริการ", href: "/services" },
+  { title: "บริการ", href: "/services/" },
   { title: "ระบบของเรา", href: "/system" },
   { title: "ลูกค้าของเรา", href: "/clients" },
 ];
@@ -40,13 +40,13 @@ const serviceSubmenu = [
             <nav class="menu">
 
                 {
-                    menus.map((menu) => menu.href === "/services" ? (
-                        <div class:list={["menu-item", "menu-item--has-submenu", { "menu-item--active": currentPath === menu.href }]}>
+                    menus.map((menu) => menu.href === "/services/" ? (
+                        <div class:list={["menu-item", "menu-item--has-submenu", { "menu-item--active": currentPath === "/services" }]}>
                             <div class="submenu-trigger">
                                 <a
                                     href={withBase(menu.href)}
-                                    class:list={{ active: currentPath === menu.href }}
-                                    aria-current={currentPath === menu.href ? "page" : undefined}
+                                    class:list={{ active: currentPath === "/services" }}
+                                    aria-current={currentPath === "/services" ? "page" : undefined}
                                     aria-haspopup="true"
                                 >
                                     {menu.title}
