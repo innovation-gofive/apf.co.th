@@ -17,6 +17,12 @@ const serviceKeys = [
   "service_warehouse_management",
   "service_transportation",
 ];
+const serviceDetailHrefs: Record<string, string> = {
+  service_b2b: `${basePath}/service-detail/#b2b`,
+  service_b2c: `${basePath}/service-detail/#b2c`,
+  service_warehouse_management: `${basePath}/service-detail/#warehouse`,
+  service_transportation: `${basePath}/service-detail/#transportation`,
+};
 
 function splitEyebrow(title = "") {
   const [firstWord, ...remainingWords] = title.split(" ");
@@ -42,6 +48,7 @@ const serviceItems = serviceKeys.map((key, index) => ({
   id: key.replace("service_", ""),
   title: acf[key]?.title,
   description: acf[key]?.description,
+  detailHref: serviceDetailHrefs[key],
   image: serviceImages[index],
   features: [1, 2, 3, 4, 5]
     .map((number, featureIndex) => ({
@@ -84,7 +91,7 @@ const capabilities = [1, 2, 3, 4, 5, 6].map((number, index) => ({
       {serviceItems.map((service) => (
         <article class="service-detail" id={service.id}>
           <div class="service-detail__copy">
-            <h3>{service.title}</h3><p>{service.description}</p>
+            <h3><a href={service.detailHref} style="color: inherit; text-decoration: none;">{service.title}</a></h3><p>{service.description}</p>
             <ul>{service.features.map((feature) => (<li>{feature.icon && <img src={feature.icon} alt="" loading="lazy" decoding="async" />}{feature.text}</li>))}</ul>
           </div>
           {service.image && (
