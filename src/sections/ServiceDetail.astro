@@ -94,6 +94,11 @@ const tabs = [
     const id = button.dataset.tab;
     if (id) { activate(id); history.replaceState(null, "", `#${id}`); }
   }));
-  const initial = location.hash.slice(1);
-  if (["b2b", "warehouse", "b2c", "transportation"].includes(initial)) activate(initial);
+  const serviceTabIds = ["b2b", "warehouse", "b2c", "transportation"];
+  const activateFromHash = () => {
+    const id = location.hash.slice(1);
+    if (serviceTabIds.includes(id)) activate(id);
+  };
+  activateFromHash();
+  window.addEventListener("hashchange", activateFromHash);
 </script>
