@@ -23,6 +23,12 @@ const serviceDetailHrefs: Record<string, string> = {
   service_warehouse_management: `${basePath}/service-detail/#warehouse`,
   service_transportation: `${basePath}/service-detail/#transportation`,
 };
+const serviceImageAlts: Record<string, string> = {
+  service_b2b: "B2B Fulfillment ของ APF สำหรับจัดเก็บและกระจายสินค้า",
+  service_b2c: "B2C Fulfillment ของ APF สำหรับธุรกิจ eCommerce",
+  service_warehouse_management: "ระบบบริหารจัดการคลังสินค้า Warehouse Management ของ APF",
+  service_transportation: "บริการขนส่งและกระจายสินค้า Transportation Services ของ APF",
+};
 
 function splitEyebrow(title = "") {
   const [firstWord, ...remainingWords] = title.split(" ");
@@ -49,6 +55,7 @@ const serviceItems = serviceKeys.map((key, index) => ({
   title: acf[key]?.title,
   description: acf[key]?.description,
   detailHref: serviceDetailHrefs[key],
+  imageAlt: serviceImageAlts[key],
   image: serviceImages[index],
   features: [1, 2, 3, 4, 5]
     .map((number, featureIndex) => ({
@@ -98,7 +105,7 @@ const capabilities = [1, 2, 3, 4, 5, 6].map((number, index) => ({
             <WordPressImage
               class="service-detail__image"
               media={service.image}
-              alt={service.title || ""}
+              alt={service.imageAlt}
               sizes="(max-width: 768px) 100vw, 45vw"
             />
           )}
