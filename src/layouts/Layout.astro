@@ -40,6 +40,15 @@ const {
     <title>{title}</title>
     {description && <meta name="description" content={description} />}
     <link rel="canonical" href={canonicalUrl} />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MTP7TJLW2E"></script>
+    <script is:inline>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { arguments.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-MTP7TJLW2E');
+    </script>
 </head>
 
 <body>
