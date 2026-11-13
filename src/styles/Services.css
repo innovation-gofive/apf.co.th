@@ -95,7 +95,7 @@
 
 .service-detail {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 616px;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 616px);
   gap: 24px;
   align-items: center;
   min-height: 300px;
@@ -115,7 +115,12 @@
 .service-detail ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px 18px; margin: 0; padding: 0; list-style: none; }
 .service-detail li { display: flex; align-items: center; gap: 8px; color: #1c3979; font-size: 16px; font-weight: 500; }
 .service-detail li img { width: 16px; height: 16px; object-fit: contain; }
-.service-detail__image { width: 616px; height: 300px; border-radius: 18px; object-fit: cover; }
+.service-detail__cta { display: inline-flex; align-items: center; gap: 8px; margin-top: 20px; color: #001f6b; font-size: 16px; font-weight: 600; text-decoration: none; }
+.service-detail__cta span { color: #18a765; font-size: 22px; line-height: 1; transition: transform .2s ease; }
+.service-detail__cta:hover, .service-detail__cta:focus-visible { color: #18a765; }
+.service-detail__cta:hover span, .service-detail__cta:focus-visible span { transform: translateX(4px); }
+.service-detail__cta:focus-visible { outline: 2px solid #18a765; outline-offset: 4px; border-radius: 2px; }
+.service-detail__image { width: 100%; height: 300px; border-radius: 18px; object-fit: cover; }
 
 .capabilities { padding-top: 12px; }
 .capabilities__panel { padding: 24px 18px; border-radius: 18px; background: #eaf1ff; }
@@ -150,7 +155,7 @@
 @media (max-width: 992px) {
   .services-hero__features { display: grid; grid-template-columns: repeat(2, max-content); }
   .service-detail { grid-template-columns: 1fr; gap: 18px; }
-  .service-detail__copy { border-bottom: 0; }
+  .service-detail__copy { border-bottom: 0; padding-bottom: 0; }
   .service-detail__image { width: 100%; height: 260px; }
   .capabilities__grid { grid-template-columns: repeat(3, 1fr); gap: 24px 0; }
   .capability:nth-child(3) { border-right: 0; }
@@ -200,6 +205,7 @@
   .services-section { padding: 30px 0; }
   .services-heading h2 { font-size: 20px; }
   .service-detail ul { grid-template-columns: 1fr; }
+  .service-detail__cta { margin-top: 18px; }
   .service-detail__image { height: 200px; }
   .capabilities__grid { grid-template-columns: repeat(2, 1fr); }
   .capability { border: 0; }

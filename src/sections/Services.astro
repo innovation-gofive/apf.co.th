@@ -98,8 +98,11 @@ const capabilities = [1, 2, 3, 4, 5, 6].map((number, index) => ({
       {serviceItems.map((service) => (
         <article class="service-detail" id={service.id}>
           <div class="service-detail__copy">
-            <h3><a href={service.detailHref} style="color: inherit; text-decoration: none;">{service.title}</a></h3><p>{service.description}</p>
+            <h3>{service.title}</h3><p>{service.description}</p>
             <ul>{service.features.map((feature) => (<li>{feature.icon && <img src={feature.icon} alt="" loading="lazy" decoding="async" />}{feature.text}</li>))}</ul>
+            <a class="service-detail__cta" href={service.detailHref} aria-label={`ดูรายละเอียดบริการ ${service.title}`}>
+              ดูรายละเอียดบริการ<span aria-hidden="true">→</span>
+            </a>
           </div>
           {service.image && (
             <WordPressImage
